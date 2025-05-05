@@ -4,6 +4,12 @@ for item in *; do
     if [ -d "$item" ]; then
         cd "$item"
 
+        if [ ! -f "Dockerfile" ]; then
+            echo "No Dockerfile found in $item, skipping..."
+            cd ../
+            continue
+        fi
+
         docker build -t "${item}:latest" .
         docker_status=$?
 

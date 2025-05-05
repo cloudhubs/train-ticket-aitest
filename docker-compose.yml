@@ -2,9 +2,12 @@ services:
   consul:
     image: hashicorp/consul:1.15.4
     ports:
-      - "8500:8500"
-      - "8600:8600/udp"
-    command: "agent -dev -client=0.0.0.0"
+      - "8500:8500"  # Consul Web UI
+      - "8600:8600/udp"  # Consul DNS
+      - "8400:8400"  # Consul RPC
+      - "8301:8301"  # Consul Server RPC
+      - "8300:8300"  # Consul Server HTTP
+    command: "agent -dev -client=0.0.0.0 -node=consul-server -bootstrap-expect=1"
     healthcheck:
       test: ["CMD", "consul", "members"]
       interval: 10s
@@ -12,6 +15,8 @@ services:
       retries: 5
     environment:
       CONSUL_BIND_INTERFACE: eth0
+    volumes:
+      - consul_data:/consul/data
     networks:
       - ts-dkr-network
 
@@ -455,6 +460,8 @@ services:
 volumes:
   mysql_data:
   rabbitmq_data:
+    driver: local
+  consul_data:
     driver: local
 
 networks:
