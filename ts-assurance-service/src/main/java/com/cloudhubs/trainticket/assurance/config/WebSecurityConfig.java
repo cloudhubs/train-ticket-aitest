@@ -1,7 +1,6 @@
-package com.cloudhubs.trainticket.config.config;
+package com.cloudhubs.trainticket.assurance.config;
 
 import edu.fudan.common.security.jwt.JWTFilter;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
@@ -18,7 +17,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -53,6 +51,14 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+    /**
+     * allow cors domain
+     * header  By default, only six fields can be taken from the header, and the other fields can only be specified in the header.
+     * credentials   Cookies are not sent by default and can only be true if a Cookie is needed
+     * Validity of this request
+     *
+     * @return WebMvcConfigurer
+     */
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         // Use the interface directly, not the deprecated adapter
@@ -69,6 +75,9 @@ public class SecurityConfig {
         };
     }
 
+    /**
+     * This @Bean replaces the old "configure(HttpSecurity)" method
+     */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 

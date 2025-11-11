@@ -25,3 +25,19 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+security:
+  authorization-rules:
+    - paths:
+        - "/swagger-ui.html"
+        - "/webjars/**"
+        - "/images/**"
+        - "/configuration/**"
+        - "/swagger-resources/**"
+        - "/v2/**"
+      authorities: ["permitAll"]
+    - paths: ["/api/v1/consignservice/**"]
+      authorities: ["ROLE_ADMIN", "ROLE_USER"]
+    - paths: [ "/api/v1/consignpriceservice/**" ]
+      authorities: [ "ROLE_ADMIN", "ROLE_USER" ]
+    - paths: [ "/api/v1/executeservice/**" ]
+      authorities: [ "ROLE_ADMIN", "ROLE_USER" ]

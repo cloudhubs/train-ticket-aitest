@@ -1,4 +1,4 @@
-package com.cloudhubs.trainticket.config.config;
+package com.cloudhubs.trainticket.contacts.config;
 
 import edu.fudan.common.security.jwt.JWTFilter;
 
