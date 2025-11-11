@@ -1,74 +1,62 @@
-package com.cloudhubs.trainticket.config.config;/*
-
 package com.cloudhubs.trainticket.config.config;
 
-import com.cloudhubs.trainticket.config.config.jwt.JWTFilter;
+import edu.fudan.common.security.jwt.JWTFilter;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
+
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import org.springframework.util.StringUtils;
+
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+import java.util.List;
 
 import static org.springframework.web.cors.CorsConfiguration.ALL;
 
-
-*/
 /**
  * @author fdse
- *//*
-
-
+ */
 @Configuration
 @EnableWebSecurity
-//@Order(10)
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+@EnableMethodSecurity(prePostEnabled = true)
+@EnableConfigurationProperties(SecurityProperties.class)
+public class SecurityConfig {
 
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private SecurityProperties securityProperties;
 
-
-    */
-/**
+    /**
      * load password encoder
      *
      * @return PasswordEncoder
-     *//*
-
-
-    */
-/*@Bean
+     */
+    @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-    }*//*
+    }
 
-
-
-    */
-/**
-     * allow cors domain
-     * header  By default, only six fields can be taken from the header, and the other fields can only be specified in the header.
-     * credentials   Cookies are not sent by default and can only be true if a Cookie is needed
-     * Validity of this request
-     *
-     * @return WebMvcConfigurer
-     *//*
-
-
-    */
-/*@Bean
+    @Bean
     public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurerAdapter() {
+        // Use the interface directly, not the deprecated adapter
+        return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
@@ -79,35 +67,49 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         .maxAge(3600);
             }
         };
-    }*//*
+    }
 
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
+        http.httpBasic(t -> t.disable())
+                .csrf(t -> t.disable())
+                .sessionManagement(t -> t.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
-    @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.httpBasic().disable()
-                // close default csrf
-                .csrf().disable()
-                // close session
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/api/v1/adminbasicservice/adminbasic/stations").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/v1/adminbasicservice/adminbasic/trains").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/v1/adminbasicservice/adminbasic/prices").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/v1/adminbasicservice/adminbasic/configs").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/v1/adminbasicservice/adminbasic/contacts").permitAll()
-                .antMatchers("/api/v1/adminbasicservice/**").hasRole("ADMIN")
-                .antMatchers("/swagger-ui.html", "/webjars/**", "/images/**",
-                        "/configuration/**", "/swagger-resources/**", "/v2/**").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .addFilterBefore(new JWTFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.authorizeHttpRequests((authorize) -> {
+            for (SecurityProperties.AuthorizationRule rule : securityProperties.getAuthorizationRules()) {
 
+                String[] paths = rule.getPaths().toArray(new String[0]);
+                String method = rule.getMethod();
+                List<String> authorities = rule.getAuthorities();
 
-        // close cache
-        httpSecurity.headers().cacheControl();
+                AuthorizeHttpRequestsConfigurer.AuthorizedUrl authorizedUrl;
+
+                if (StringUtils.hasText(method)) {
+                    authorizedUrl = authorize.requestMatchers(HttpMethod.valueOf(method.toUpperCase()), paths);
+                } else {
+                    authorizedUrl = authorize.requestMatchers(paths);
+                }
+
+                if (authorities == null || authorities.isEmpty()) {
+                    authorizedUrl.denyAll();
+                } else if (authorities.contains("permitAll")) {
+                    authorizedUrl.permitAll();
+                } else if (authorities.contains("authenticated")) {
+                    authorizedUrl.authenticated();
+                } else {
+                    String[] roles = authorities.stream()
+                            .map(auth -> auth.startsWith("ROLE_") ? auth.substring(5) : auth)
+                            .toArray(String[]::new);
+                    authorizedUrl.hasAnyRole(roles);
+                }
+            }
+            authorize.anyRequest().authenticated();
+        });
+
+        http.addFilterBefore(new JWTFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.headers(headers -> headers.cacheControl(cache -> cache.disable()));
+
+        return http.build();
     }
 }
-
-*/

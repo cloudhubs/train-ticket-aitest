@@ -25,3 +25,26 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+security:
+  authorization-rules:
+    - paths: [ "/api/v1/stationservice/stations" ]
+      method: "POST"
+      authorities: [ "ROLE_ADMIN" ]
+    - paths: [ "/api/v1/stationservice/stations" ]
+      method: "PUT"
+      authorities: [ "ROLE_ADMIN" ]
+    - paths: [ "/api/v1/stationservice/stations" ]
+      method: "DELETE"
+      authorities: [ "ROLE_ADMIN" ]
+    - paths:
+        - "/swagger-ui.html"
+        - "/webjars/**"
+        - "/images/**"
+        - "/configuration/**"
+        - "/swagger-resources/**"
+        - "/v2/**"
+      authorities: ["permitAll"]
+    - paths: ["/api/v1/contactservice/**"]
+      authorities: ["ROLE_ADMIN", "ROLE_USER"]
+    - paths: [ "/api/v1/stationservice/**" ]
+      authorities: [ "permitAll" ]

@@ -16,25 +16,21 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
-
-
 @RestController
 @RequestMapping("/api/v1/users")
 @CrossOrigin("/**")
 public class AuthUserController {
 
-    @Autowired
-    private AuthUserService authUserService;
+@Autowired
+private AuthUserService authUserService;
 
 @Autowired
-    private TokenService tokenService;
+private TokenService tokenService;
 
+private static final Logger logger = LoggerFactory.getLogger(AuthUserController.class);
 
-    private static final Logger logger = LoggerFactory.getLogger(AuthUserController.class);
-
-    @GetMapping("/hello")
-    public Object getHello() {
+@GetMapping("/hello")
+public Object getHello() {
         return "Hello";
     }
 
