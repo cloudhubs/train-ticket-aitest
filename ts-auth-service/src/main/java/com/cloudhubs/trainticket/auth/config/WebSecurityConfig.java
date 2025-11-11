@@ -110,7 +110,7 @@ public class WebSecurityConfig {
                     // Allows only the authenticated users (no role checked)
                     authorizedUrl.authenticated();
                 } else {
-                    // Allows only the ADMIN users.
+                    // Allows only the users with specific roles.
                     String[] roles = authorities.stream()
                             .map(auth -> auth.startsWith("ROLE_") ? auth.substring(5) : auth)
                             .toArray(String[]::new);
@@ -122,19 +122,6 @@ public class WebSecurityConfig {
 
         http.addFilterBefore(new JWTFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
-
-//                .authorizeHttpRequests((authorize) -> authorize
-//                        .requestMatchers("/api/v1/auth", "/api/v1/auth/hello", "/api/v1/user/hello").permitAll()
-//                        .requestMatchers("/api/v1/users/login").permitAll()
-//                        .requestMatchers(HttpMethod.GET, "/api/v1/users").hasRole("ADMIN")
-//                        .requestMatchers(HttpMethod.DELETE, "/api/v1/users/*").hasRole("ADMIN")
-//                        // create user and role while user register
-//                        .requestMatchers("/user/**").permitAll()
-//                        .requestMatchers("/swagger-ui.html", "/webjars/**", "/images/**",
-//                                "/configuration/**", "/swagger-resources/**", "/v2/**")
-//                        .permitAll()
-//                        .anyRequest().authenticated())
-//                .addFilterBefore(new JWTFilter(), UsernamePasswordAuthenticationFilter.class);
 
     }
 }
