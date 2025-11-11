@@ -25,3 +25,25 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+security:
+  authorization-rules:
+    - paths: [ "/api/v1/userservice/users/*" ]
+      method: "DELETE"
+      authorities: [ "ROLE_ADMIN", "ROLE_USER" ]
+    - paths: [ "/api/v1/userservice/users/**" ]
+      authorities: [ "permitAll" ]
+    - paths:
+        - "/api/v1/travelplanservice/**"
+        - "/swagger-ui.html"
+        - "/webjars/**"
+        - "/images/**"
+        - "/configuration/**"
+        - "/swagger-resources/**"
+        - "/v2/**"
+      authorities: ["permitAll"]
+    - paths: ["/api/v1/adminorderservice/**"]
+      authorities: ["ROLE_ADMIN"]
+    - paths: [ "/api/v1/preserveservice/**" ]
+      authorities: [ "ROLE_ADMIN", "ROLE_USER" ]
+    - paths: [ "/api/v1/preserveotherservice/**" ]
+      authorities: [ "ROLE_ADMIN", "ROLE_USER" ]

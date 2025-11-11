@@ -27,24 +27,25 @@ spring:
       ddl-auto: update
 security:
   authorization-rules:
-    - paths: ["/api/v1/users"]
-      method: "GET"
-      authorities: ["ROLE_ADMIN"]
-    - paths: ["/api/v1/users/*"]
-      method: "DELETE"
-      authorities: ["ROLE_ADMIN"]
     - paths:
         - "/api/v1/auth"
         - "/api/v1/auth/hello"
         - "/api/v1/user/hello"
         - "/api/v1/users/login"
         - "/user/**"
-      authorities: ["permitAll"]
-    - paths:
         - "/swagger-ui.html"
         - "/webjars/**"
         - "/images/**"
         - "/configuration/**"
         - "/swagger-resources/**"
         - "/v2/**"
-      authorities: ["permitAll"]
+      authorities: [ "permitAll" ]
+    - paths: [ "/api/v1/auth" ]
+      method: "POST"
+      authorities: [ "permitAll" ]
+    - paths: [ "/api/v1/users/getAllUser" ]
+      method: "GET"
+      authorities: [ "ROLE_ADMIN" ]
+    - paths: [ "/api/v1/users/*" ]
+      method: "DELETE"
+      authorities: [ "ROLE_ADMIN" ]
