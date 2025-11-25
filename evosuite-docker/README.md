@@ -120,6 +120,66 @@ The script performs Java 17 to Java 11 cross-compilation:
 - **Config Classes**: Security configuration classes are excluded from compilation
 - **Coverage**: Typical coverage ranges from 70-90% depending on class complexity
 
+## Why EvoSuite is NOT Suitable for API/Endpoint Testing
+
+### EvoSuite is a Unit Test Generator, Not an API Test Generator
+
+EvoSuite generates **method-level unit tests**, not HTTP endpoint tests:
+
+| What You Might Expect | What EvoSuite Actually Generates |
+|-----------------------|----------------------------------|
+| `POST /api/v1/payment` with JSON body | `controller.pay(null)` direct method call |
+| HTTP headers, status codes, response validation | Method return value assertions |
+| End-to-end API flow testing | Isolated class instantiation with null dependencies |
+
+### Architectural Limitation: RMI Serialization Boundary
+
+EvoSuite uses a **master-client architecture** with Java RMI (Remote Method Invocation):
+
+```
+┌──────────────────┐                    ┌──────────────────┐
+│  MASTER Process  │◄───── RMI ────────►│  CLIENT Process  │
+│                  │   (serialization)  │                  │
+│  - evosuite.jar  │                    │  - evosuite.jar  │
+│  - JDK classes   │                    │  - JDK classes   │
+│                  │                    │  - Spring JARs   │
+│                  │                    │  - Project code  │
+└──────────────────┘                    └──────────────────┘
+```
+
+**The Problem**: When testing Spring controllers, the Client generates tests containing framework types (`ResponseEntity`, `HttpEntity`, `HttpHeaders`). These must be serialized via RMI to the Master process, which **does not have Spring classes** in its classpath, causing:
+
+```
+java.lang.NoClassDefFoundError: org/springframework/http/HttpEntity
+```
+
+This is an **inherent architectural limitation**, not a configuration issue.
+
+### What Works vs What Doesn't
+
+| Class Type | Works? | Reason |
+|------------|--------|--------|
+| Utility classes (`StringUtils`) | ✅ Yes | No framework dependencies |
+| Entity/DTO classes | ✅ Yes | Simple POJOs, standard Java types |
+| Service classes (simple) | ⚠️ Partial | Depends on complexity |
+| **Controllers** | ❌ No | RMI serialization fails on Spring types |
+| **Repository interfaces** | ❌ No | Spring Data interfaces, nothing to test |
+| Config classes | ❌ No | Spring configuration, excluded |
+
+### For API/Endpoint Testing, Use These Tools Instead
+
+| Tool | Type | Description |
+|------|------|-------------|
+| **EvoMaster** | Search-based | Same genetic algorithm approach, designed for REST APIs |
+| **RESTler** | Fuzzing | Microsoft's stateful REST API fuzzer |
+| **Schemathesis** | Property-based | Generates tests from OpenAPI/Swagger specs |
+| **Dredd** | Contract testing | Validates API against OpenAPI specification |
+| **Karate** | BDD | API test automation framework |
+
+### Summary for Research
+
+> EvoSuite employs a master-client architecture using Java RMI for inter-process communication. This design introduces a serialization boundary that prevents effective test generation for classes utilizing framework-specific types (e.g., Spring's `ResponseEntity`, `HttpEntity`) that are not present in the master process's classpath. This is an inherent architectural limitation of EvoSuite, making it unsuitable for testing REST API controllers or endpoint-level functionality. EvoSuite is designed for unit testing plain Java classes with minimal external dependencies.
+
 ## EvoSuite Version
 
 This setup uses EvoSuite v1.2.0, which supports:
