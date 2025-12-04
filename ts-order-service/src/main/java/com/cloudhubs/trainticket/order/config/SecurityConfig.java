@@ -1,6 +1,6 @@
 package com.cloudhubs.trainticket.order.config;
 
-import edu.fudan.common.security.jwt.JWTFilter;
+import com.cloudhubs.trainticket.order.config.jwt.JWTFilter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -77,7 +77,7 @@ public class SecurityConfig {
                 .sessionManagement(t -> t.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         http.authorizeHttpRequests((authorize) -> {
-            for (SecurityProperties.AuthorizationRule rule : securityProperties.getAuthorizationRules()) {
+            for (AuthorizationRule rule : securityProperties.getAuthorizationRules()) {
 
                 String[] paths = rule.getPaths().toArray(new String[0]);
                 String method = rule.getMethod();
