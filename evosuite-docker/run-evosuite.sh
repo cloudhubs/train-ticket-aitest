@@ -12,7 +12,7 @@
 #
 # =============================================================================
 
-set -e
+# Note: Not using 'set -e' to allow capturing full output even on failures
 
 # Configuration
 SERVICE_NAME="${1:-ts-admin-service}"
@@ -26,12 +26,20 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 SERVICE_DIR="${PROJECT_ROOT}/${SERVICE_NAME}"
 
-# Colors for output
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
-NC='\033[0m'
+# Colors for output (disabled when piped or LOG_FILE is set)
+if [ -t 1 ] && [ -z "$LOG_FILE" ]; then
+    RED='\033[0;31m'
+    GREEN='\033[0;32m'
+    YELLOW='\033[1;33m'
+    BLUE='\033[0;34m'
+    NC='\033[0m'
+else
+    RED=''
+    GREEN=''
+    YELLOW=''
+    BLUE=''
+    NC=''
+fi
 
 echo -e "${BLUE}=============================================${NC}"
 echo -e "${BLUE}  EvoSuite Test Generation${NC}"

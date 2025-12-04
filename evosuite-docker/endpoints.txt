@@ -1,0 +1,19 @@
+# EvoSuite Endpoint Test Configuration
+# Format: service|endpoint|method|controller_class
+#
+# This file lists 13 endpoints to test with EvoSuite for research benchmarking.
+# Each line will generate a separate log file.
+
+ts-contacts-service|contactservice/contacts|GET|com.cloudhubs.trainticket.contacts.controller.ContactsController
+ts-admin-service|adminbasicservice/adminbasic/prices|GET|com.cloudhubs.trainticket.adminservice.controller.AdminBasicInfoController
+ts-cancel-service|cancelservice/cancel|GET|com.cloudhubs.trainticket.cancel.controller.CancelController
+ts-delivery-service|inside_pay_service/inside_payment/account|POST|com.cloudhubs.trainticket.delivery.controller.InsidePaymentController
+ts-admin-service|adminbasicservice/adminbasic/prices|POST|com.cloudhubs.trainticket.adminservice.controller.AdminBasicInfoController
+ts-order-service|preserveservice/preserve|POST|com.cloudhubs.trainticket.order.controller.PreserveController
+ts-contacts-service|contactservice/contacts|DELETE|com.cloudhubs.trainticket.contacts.controller.ContactsController
+ts-admin-service|adminbasicservice/adminbasic/stations|DELETE|com.cloudhubs.trainticket.adminservice.controller.AdminBasicInfoController
+ts-order-service|adminorderservice/adminorder|DELETE|com.cloudhubs.trainticket.order.controller.AdminOrderController
+ts-preserve-service|orderservice/order|PUT|com.cloudhubs.trainticket.preserve.controller.OrderController
+ts-delivery-service|adminuserservice/users|PUT|com.cloudhubs.trainticket.delivery.controller.AdminUserController
+ts-admin-service|adminbasicservice/adminbasic/contacts|PUT|com.cloudhubs.trainticket.adminservice.controller.AdminBasicInfoController
+ts-order-related-service|assuranceservice/assurances|PATCH|com.cloudhubs.trainticket.orderrelated.controller.AssuranceController

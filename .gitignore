@@ -4,6 +4,10 @@
 # Log file
 *.log
 
+# Exception: Allow EvoSuite research logs
+!evosuite-docker/logs/
+!evosuite-docker/logs/**
+
 # BlueJ files
 *.ctxt
 
