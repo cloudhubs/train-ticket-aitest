@@ -1,0 +1,68 @@
+=============================================
+EvoSuite Endpoint Test Summary Report
+=============================================
+
+Run Timestamp:    20251203_224247
+Total Duration:   437 seconds (7 min 17 sec)
+Search Budget:    60 seconds per endpoint
+
+=============================================
+Results
+=============================================
+
+Total Endpoints:  13
+Successful:       4
+Failed:           9
+
+--- Successful Tests ---
+  ✓ 02_GET_adminbasicservice_adminbasic_prices
+  ✓ 05_POST_adminbasicservice_adminbasic_prices
+  ✓ 08_DELETE_adminbasicservice_adminbasic_stations
+  ✓ 12_PUT_adminbasicservice_adminbasic_contacts
+
+--- Failed Tests ---
+  ✗ 01_GET_contactservice_contacts
+  ✗ 03_GET_cancelservice_cancel
+  ✗ 04_POST_inside_pay_service_inside_payment_account
+  ✗ 06_POST_preserveservice_preserve
+  ✗ 07_DELETE_contactservice_contacts
+  ✗ 09_DELETE_adminorderservice_adminorder
+  ✗ 10_PUT_orderservice_order
+  ✗ 11_PUT_adminuserservice_users
+  ✗ 13_PATCH_assuranceservice_assurances
+
+=============================================
+Log Files
+=============================================
+
+Directory: /Users/rfnmac/Documents/research/ai-test/train-ticket-aitest/evosuite-docker/logs/run_20251203_224247
+
+  - 01_GET_contactservice_contacts.log
+  - 02_GET_adminbasicservice_adminbasic_prices.log
+  - 03_GET_cancelservice_cancel.log
+  - 04_POST_inside_pay_service_inside_payment_account.log
+  - 05_POST_adminbasicservice_adminbasic_prices.log
+  - 06_POST_preserveservice_preserve.log
+  - 07_DELETE_contactservice_contacts.log
+  - 08_DELETE_adminbasicservice_adminbasic_stations.log
+  - 09_DELETE_adminorderservice_adminorder.log
+  - 10_PUT_orderservice_order.log
+  - 11_PUT_adminuserservice_users.log
+  - 12_PUT_adminbasicservice_adminbasic_contacts.log
+  - 13_PATCH_assuranceservice_assurances.log
+
+=============================================
+Notes for Research
+=============================================
+
+EvoSuite Architectural Limitation:
+  EvoSuite uses a master-client RMI architecture where the master
+  process cannot deserialize Spring framework types (HttpEntity,
+  ResponseEntity, etc.) because they are not in its classpath.
+  This causes test generation to fail for most Spring controllers.
+
+Expected Behavior:
+  - Controllers will likely show 0 generated tests
+  - Errors like 'NoClassDefFoundError: org/springframework/http/HttpEntity'
+    are expected and documented in the log files
+
