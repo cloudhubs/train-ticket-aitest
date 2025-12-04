@@ -83,7 +83,7 @@ public class WebSecurityConfig {
 
         // Fetching the RABC from configurations and dynamically applying them.
         http.authorizeHttpRequests((authorize) -> {
-            for (SecurityProperties.AuthorizationRule rule : securityProperties.getAuthorizationRules()) {
+            for (AuthorizationRule rule : securityProperties.getAuthorizationRules()) {
                 // Retreiving the paths and methods
                 String[] paths = rule.getPaths().toArray(new String[0]);
                 String method = rule.getMethod();

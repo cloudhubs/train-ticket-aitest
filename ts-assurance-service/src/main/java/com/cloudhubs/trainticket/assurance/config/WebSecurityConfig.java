@@ -36,7 +36,7 @@ import static org.springframework.web.cors.CorsConfiguration.ALL;
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
 @EnableConfigurationProperties(SecurityProperties.class)
-public class SecurityConfig {
+public class WebSecurityConfig {
 
     @Autowired
     private SecurityProperties securityProperties;
@@ -86,7 +86,7 @@ public class SecurityConfig {
                 .sessionManagement(t -> t.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         http.authorizeHttpRequests((authorize) -> {
-            for (SecurityProperties.AuthorizationRule rule : securityProperties.getAuthorizationRules()) {
+            for (AuthorizationRule rule : securityProperties.getAuthorizationRules()) {
 
                 String[] paths = rule.getPaths().toArray(new String[0]);
                 String method = rule.getMethod();
