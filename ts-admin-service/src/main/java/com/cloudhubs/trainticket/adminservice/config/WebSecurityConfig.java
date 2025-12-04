@@ -1,6 +1,6 @@
 package com.cloudhubs.trainticket.adminservice.config;
 
-import edu.fudan.common.security.jwt.JWTFilter;
+import com.cloudhubs.trainticket.adminservice.config.jwt.JWTFilter;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,7 @@ import static org.springframework.web.cors.CorsConfiguration.ALL;
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
 @EnableConfigurationProperties(SecurityProperties.class)
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig {
 
     @Autowired
     private SecurityProperties securityProperties;

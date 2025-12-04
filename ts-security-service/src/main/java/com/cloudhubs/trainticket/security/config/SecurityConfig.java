@@ -1,6 +1,6 @@
 package com.cloudhubs.trainticket.security.config;
 
-import edu.fudan.common.security.jwt.JWTFilter;
+import com.cloudhubs.trainticket.security.config.jwt.JWTFilter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
