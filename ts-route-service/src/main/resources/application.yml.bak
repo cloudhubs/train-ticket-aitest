@@ -8,8 +8,7 @@ spring:
       config:
         enabled: false
       discovery:
-        instance-id: 
-          ${spring.application.name}-${server.port}-${random.int[1,99]}
+        instance-id: ${spring.application.name}-${server.port}-${random.int[1,99]}
         prefer-ip-address: true
       host: ${CONSUL_HOST:localhost}
       port: 8500
@@ -19,8 +18,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     password: admin@123#
-    url: 
-      jdbc:mysql://${MYSQL_HOST:localhost}:3306/ts-route-service?createDatabaseIfNotExist=true
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/ts-route-service?createDatabaseIfNotExist=true
     username: root
     hikari:
       maximum-pool-size: 2
@@ -29,19 +27,19 @@ spring:
       ddl-auto: update
 security:
   authorization-rules:
-    - paths: ["/api/v1/userservice/users/*"]
+    - paths: [ "/api/v1/userservice/users/*" ]
       method: "DELETE"
-      authorities: ["ROLE_ADMIN", "ROLE_USER"]
-    - paths: ["/api/v1/routeservice/routes"]
+      authorities: [ "ROLE_ADMIN", "ROLE_USER" ]
+    - paths: [ "/api/v1/routeservice/routes" ]
       method: "POST"
-      authorities: ["ROLE_ADMIN"]
-    - paths: ["/api/v1/routeservice/routes/*"]
+      authorities: [ "ROLE_ADMIN" ]
+    - paths: [ "/api/v1/routeservice/routes/*" ]
       method: "DELETE"
-      authorities: ["ROLE_ADMIN"]
-    - paths: ["/api/v1/routeservice/**"]
-      authorities: ["permitAll"]
-    - paths: ["/api/v1/userservice/users/**"]
-      authorities: ["permitAll"]
+      authorities: [ "ROLE_ADMIN" ]
+    - paths: [ "/api/v1/routeservice/**" ]
+      authorities: [ "permitAll" ]
+    - paths: [ "/api/v1/userservice/users/**" ]
+      authorities: [ "permitAll" ]
     - paths:
         - "/swagger-ui.html"
         - "/webjars/**"
@@ -50,9 +48,9 @@ security:
         - "/swagger-resources/**"
         - "/v2/**"
       authorities: ["permitAll"]
-    - paths: ["/api/v1/executeservice/**"]
-      authorities: ['ROLE_ADMIN']
+    - paths: [ "/api/v1/executeservice/**" ]
+      authorities: [ "ROLE_ADMIN", "ROLE_USER" ]
     - paths: ["/api/v1/adminrouteservice/**"]
       authorities: ["ROLE_ADMIN"]
-    - paths: ["/api/v1/assuranceservice/**"]
-      authorities: ["ROLE_USER"]
+    - paths: [ "/api/v1/assuranceservice/**" ]
+      authorities: [ "ROLE_USER" ]

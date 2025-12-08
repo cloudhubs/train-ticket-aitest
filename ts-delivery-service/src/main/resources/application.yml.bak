@@ -1,15 +1,15 @@
 server:
-  port: 8890
+  port: 8895
 spring:
   application:
-    name: ts-auth-service
+    name: ts-delivery-service
   cloud:
     consul:
+
       config:
         enabled: false
       discovery:
-        instance-id: 
-          ${spring.application.name}-${server.port}-${random.int[1,99]}
+        instance-id: ${spring.application.name}-${server.port}-${random.int[1,99]}
         prefer-ip-address: true
       host: ${CONSUL_HOST:localhost}
       port: 8500
@@ -19,8 +19,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     password: admin@123#
-    url: 
-      jdbc:mysql://${MYSQL_HOST:localhost}:3306/ts-auth-service?createDatabaseIfNotExist=true
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/ts-delivery-service?createDatabaseIfNotExist=true
     username: root
     hikari:
       maximum-pool-size: 2
@@ -30,11 +29,7 @@ spring:
 security:
   authorization-rules:
     - paths:
-        - "/api/v1/auth"
-        - "/api/v1/auth/hello"
-        - "/api/v1/user/hello"
-        - "/api/v1/users/login"
-        - "/user/**"
+        - "/api/v1/trainfoodservice/**"
         - "/swagger-ui.html"
         - "/webjars/**"
         - "/images/**"
@@ -42,12 +37,7 @@ security:
         - "/swagger-resources/**"
         - "/v2/**"
       authorities: ["permitAll"]
-    - paths: ["/api/v1/auth"]
-      method: "POST"
-      authorities: ["permitAll"]
-    - paths: ["/api/v1/users/getAllUser"]
-      method: "GET"
+    - paths: ["/api/v1/adminuserservice/users/**"]
       authorities: ["ROLE_ADMIN"]
-    - paths: ["/api/v1/users/*"]
-      method: "DELETE"
-      authorities: ['authenticated']
+    - paths: [ "/api/v1/inside_pay_service/**" ]
+      authorities: [ "ROLE_ADMIN", "ROLE_USER" ]

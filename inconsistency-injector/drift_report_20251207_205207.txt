@@ -1,0 +1,100 @@
+Report on the Injection of Authorization Drifts
+Report Time: 2025-12-07 20:52:07
+
+Summary
+Total Microservices Scanned: 22
+Total Microservices Modified: 15
+
+Injections/Mutations
+
+1. Service: ts-price-service/src/main/resources/application.yml
+   - Rule Index: 4
+   - Endpoint:   /swagger-ui.html
+   - Method:     ANY
+   - Role Drift: ['permitAll'] -> ['authenticated']
+
+2. Service: ts-station-service/src/main/resources/application.yml
+   - Rule Index: 1
+   - Endpoint:   /api/v1/stationservice/stations
+   - Method:     PUT
+   - Role Drift: ['ROLE_ADMIN'] -> ['authenticated']
+
+3. Service: ts-food-service/src/main/resources/application.yml
+   - Rule Index: 2
+   - Endpoint:   /api/v1/foodservice/orders
+   - Method:     POST
+   - Role Drift: ['ROLE_ADMIN'] -> ['authenticated']
+
+4. Service: ts-order-service/src/main/resources/application.yml
+   - Rule Index: 4
+   - Endpoint:   /api/v1/preserveservice/**
+   - Method:     ANY
+   - Role Drift: ['ROLE_ADMIN', 'ROLE_USER'] -> ['ROLE_USER']
+
+5. Service: ts-order-related-service/src/main/resources/application.yml
+   - Rule Index: 0
+   - Endpoint:   /swagger-ui.html
+   - Method:     ANY
+   - Role Drift: ['permitAll'] -> ['authenticated']
+
+6. Service: ts-route-service/src/main/resources/application.yml
+   - Rule Index: 6
+   - Endpoint:   /api/v1/executeservice/**
+   - Method:     ANY
+   - Role Drift: ['ROLE_ADMIN', 'ROLE_USER'] -> ['ROLE_ADMIN']
+
+7. Service: ts-cancel-service/src/main/resources/application.yml
+   - Rule Index: 1
+   - Endpoint:   /api/v1/cancelservice/**
+   - Method:     ANY
+   - Role Drift: ['ROLE_ADMIN', 'ROLE_USER'] -> ['ROLE_USER']
+
+8. Service: ts-preserve-service/src/main/resources/application.yml
+   - Rule Index: 5
+   - Endpoint:   /api/v1/orderOtherService/orderOther
+   - Method:     DELETE
+   - Role Drift: ['ROLE_ADMIN', 'ROLE_USER'] -> ['ROLE_ADMIN']
+
+9. Service: ts-consign-service/src/main/resources/application.yml
+   - Rule Index: 2
+   - Endpoint:   /api/v1/consignpriceservice/**
+   - Method:     ANY
+   - Role Drift: ['ROLE_ADMIN', 'ROLE_USER'] -> ['ROLE_ADMIN']
+
+10. Service: ts-travel-service/src/main/resources/application.yml
+   - Rule Index: 11
+   - Endpoint:   /api/v1/travel2service/trips
+   - Method:     PUT
+   - Role Drift: ['ROLE_ADMIN'] -> ['ROLE_USER']
+
+11. Service: ts-delivery-service/src/main/resources/application.yml
+   - Rule Index: 2
+   - Endpoint:   /api/v1/inside_pay_service/**
+   - Method:     ANY
+   - Role Drift: ['ROLE_ADMIN', 'ROLE_USER'] -> ['ROLE_USER']
+
+12. Service: ts-admin-service/src/main/resources/application.yml
+   - Rule Index: 1
+   - Endpoint:   /swagger-ui.html
+   - Method:     ANY
+   - Role Drift: ['permitAll'] -> ['authenticated']
+
+13. Service: ts-auth-service/src/main/resources/application.yml
+   - Rule Index: 3
+   - Endpoint:   /api/v1/users/*
+   - Method:     DELETE
+   - Role Drift: ['ROLE_ADMIN'] -> ['authenticated']
+
+14. Service: ts-contacts-service/src/main/resources/application.yml
+   - Rule Index: 5
+   - Endpoint:   /api/v1/stationservice/**
+   - Method:     ANY
+   - Role Drift: ['permitAll'] -> ['authenticated']
+
+15. Service: ts-security-service/src/main/resources/application.yml
+   - Rule Index: 0
+   - Endpoint:   /api/v1/configservice/configs
+   - Method:     POST
+   - Role Drift: ['ROLE_ADMIN'] -> ['ROLE_USER']
+
+--- End of Report ---

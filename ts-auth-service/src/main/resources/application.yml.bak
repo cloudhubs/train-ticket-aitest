@@ -8,8 +8,7 @@ spring:
       config:
         enabled: false
       discovery:
-        instance-id: 
-          ${spring.application.name}-${server.port}-${random.int[1,99]}
+        instance-id: ${spring.application.name}-${server.port}-${random.int[1,99]}
         prefer-ip-address: true
       host: ${CONSUL_HOST:localhost}
       port: 8500
@@ -19,8 +18,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     password: admin@123#
-    url: 
-      jdbc:mysql://${MYSQL_HOST:localhost}:3306/ts-auth-service?createDatabaseIfNotExist=true
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/ts-auth-service?createDatabaseIfNotExist=true
     username: root
     hikari:
       maximum-pool-size: 2
@@ -41,13 +39,13 @@ security:
         - "/configuration/**"
         - "/swagger-resources/**"
         - "/v2/**"
-      authorities: ["permitAll"]
-    - paths: ["/api/v1/auth"]
+      authorities: [ "permitAll" ]
+    - paths: [ "/api/v1/auth" ]
       method: "POST"
-      authorities: ["permitAll"]
-    - paths: ["/api/v1/users/getAllUser"]
+      authorities: [ "permitAll" ]
+    - paths: [ "/api/v1/users/getAllUser" ]
       method: "GET"
-      authorities: ["ROLE_ADMIN"]
-    - paths: ["/api/v1/users/*"]
+      authorities: [ "ROLE_ADMIN" ]
+    - paths: [ "/api/v1/users/*" ]
       method: "DELETE"
-      authorities: ['authenticated']
+      authorities: [ "ROLE_ADMIN" ]

@@ -8,7 +8,8 @@ spring:
       config:
         enabled: false
       discovery:
-        instance-id: ${spring.application.name}-${server.port}-${random.int[1,99]}
+        instance-id: 
+          ${spring.application.name}-${server.port}-${random.int[1,99]}
         prefer-ip-address: true
       host: ${CONSUL_HOST:localhost}
       port: 8500
@@ -18,7 +19,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     password: admin@123#
-    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/ts-travel-service?createDatabaseIfNotExist=true
+    url: 
+      jdbc:mysql://${MYSQL_HOST:localhost}:3306/ts-travel-service?createDatabaseIfNotExist=true
     username: root
     hikari:
       maximum-pool-size: 2
@@ -30,65 +32,65 @@ security:
     - paths: ["/api/v1/orderservice/order"]
       method: "POST"
       authorities: ["ROLE_ADMIN", "ROLE_USER"]
-    - paths: [ "/api/v1/orderOtherService/orderOther" ]
+    - paths: ["/api/v1/orderOtherService/orderOther"]
       method: "POST"
-      authorities: [ "ROLE_ADMIN", "ROLE_USER" ]
+      authorities: ["ROLE_ADMIN", "ROLE_USER"]
     - paths: ["/api/v1/orderservice/order"]
       method: "PUT"
       authorities: ["ROLE_ADMIN", "ROLE_USER"]
-    - paths: [ "/api/v1/orderOtherService/orderOther" ]
+    - paths: ["/api/v1/orderOtherService/orderOther"]
       method: "PUT"
-      authorities: [ "ROLE_ADMIN", "ROLE_USER" ]
+      authorities: ["ROLE_ADMIN", "ROLE_USER"]
     - paths: ["/api/v1/orderservice/order"]
       method: "DELETE"
       authorities: ["ROLE_ADMIN", "ROLE_USER"]
-    - paths: [ "/api/v1/orderOtherService/orderOther" ]
+    - paths: ["/api/v1/orderOtherService/orderOther"]
       method: "DELETE"
-      authorities: [ "ROLE_ADMIN", "ROLE_USER" ]
+      authorities: ["ROLE_ADMIN", "ROLE_USER"]
     - paths: ["/api/v1/orderservice/order/admin"]
       method: "POST"
       authorities: ["ROLE_ADMIN"]
-    - paths: [ "/api/v1/orderOtherService/orderOther/admin" ]
+    - paths: ["/api/v1/orderOtherService/orderOther/admin"]
       method: "POST"
-      authorities: [ "ROLE_ADMIN" ]
+      authorities: ["ROLE_ADMIN"]
     - paths: ["/api/v1/orderservice/order/admin"]
       method: "PUT"
       authorities: ["ROLE_ADMIN"]
-    - paths: [ "/api/v1/orderOtherService/orderOther/admin" ]
+    - paths: ["/api/v1/orderOtherService/orderOther/admin"]
       method: "PUT"
-      authorities: [ "ROLE_ADMIN" ]
-    - paths: [ "/api/vB1/seatservice/seats" ]
+      authorities: ["ROLE_ADMIN"]
+    - paths: ["/api/vB1/seatservice/seats"]
       method: "POST"
-      authorities: [ "ROLE_ADMIN" ]
-    - paths: [ "/api/v1/travel2service/trips" ]
+      authorities: ["ROLE_ADMIN"]
+    - paths: ["/api/v1/travel2service/trips"]
       method: "PUT"
-      authorities: [ "ROLE_ADMIN" ]
-    - paths: [ "/api/v1/travel2service/trips" ]
+      authorities: ['ROLE_USER']
+    - paths: ["/api/v1/travel2service/trips"]
       method: "POST"
-      authorities: [ "ROLE_ADMIN" ]
-    - paths: [ "/api/v1/travel2service/trips" ]
+      authorities: ["ROLE_ADMIN"]
+    - paths: ["/api/v1/travel2service/trips"]
       method: "DELETE"
-      authorities: [ "ROLE_ADMIN" ]
-    - paths: [ "/api/v1/waitorderservice/order" ]
+      authorities: ["ROLE_ADMIN"]
+    - paths: ["/api/v1/waitorderservice/order"]
       method: "POST"
-      authorities: [ "ROLE_USER" ]
-    - paths: [ "/api/v1/waitorderservice/orders" ]
+      authorities: ["ROLE_USER"]
+    - paths: ["/api/v1/waitorderservice/orders"]
       method: "GET"
-      authorities: [ "ROLE_USER" ]
-    - paths: [ "/api/v1/waitorderservice/waitlistorders" ]
+      authorities: ["ROLE_USER"]
+    - paths: ["/api/v1/waitorderservice/waitlistorders"]
       method: "GET"
-      authorities: [ "ROLE_USER" ]
+      authorities: ["ROLE_USER"]
     # 2. General permitAll rule for welcome endpoint
-    - paths: [ "/api/v1/waitorderservice/welcome" ]
-      authorities: [ "permitAll" ]
-    - paths: [ "/api/v1/travel2service/**" ]
-      authorities: [ "permitAll" ]
-    - paths: [ "/api/v1/seatservice/**" ]
-      authorities: [ "permitAll" ]
+    - paths: ["/api/v1/waitorderservice/welcome"]
+      authorities: ["permitAll"]
+    - paths: ["/api/v1/travel2service/**"]
+      authorities: ["permitAll"]
+    - paths: ["/api/v1/seatservice/**"]
+      authorities: ["permitAll"]
     - paths: ["/api/v1/orderservice/order/**"]
       authorities: ["permitAll"]
-    - paths: [ "/api/v1/orderOtherService/orderOther/**" ]
-      authorities: [ "permitAll" ]
+    - paths: ["/api/v1/orderOtherService/orderOther/**"]
+      authorities: ["permitAll"]
     - paths:
         - "/swagger-ui.html"
         - "/webjars/**"
