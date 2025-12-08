@@ -1,0 +1,82 @@
+Report on the Injection of Authorization Drifts
+Report Time: 2025-12-07 20:48:53
+
+Summary
+Total Microservices Scanned: 22
+Total Microservices Modified: 12
+
+Injections/Mutations
+
+1. Service: ts-contacts-service/src/main/resources/application.yml
+   - Rule Index: 5
+   - Endpoint:   /api/v1/stationservice/**
+   - Method:     ANY
+   - Role Drift: ['permitAll'] -> ['authenticated']
+
+2. Service: ts-assurance-service/src/main/resources/application.yml
+   - Rule Index: 2
+   - Endpoint:   /api/v1/trainservice/trains/*
+   - Method:     DELETE
+   - Role Drift: ['ROLE_ADMIN'] -> ['ROLE_USER']
+
+3. Service: ts-order-service/src/main/resources/application.yml
+   - Rule Index: 0
+   - Endpoint:   /api/v1/userservice/users/*
+   - Method:     DELETE
+   - Role Drift: ['ROLE_ADMIN', 'ROLE_USER'] -> ['ROLE_USER']
+
+4. Service: ts-station-service/src/main/resources/application.yml
+   - Rule Index: 5
+   - Endpoint:   /api/v1/contactservice/**
+   - Method:     ANY
+   - Role Drift: ['ROLE_ADMIN', 'ROLE_USER'] -> ['ROLE_ADMIN']
+
+5. Service: ts-auth-service/src/main/resources/application.yml
+   - Rule Index: 3
+   - Endpoint:   /api/v1/users/*
+   - Method:     DELETE
+   - Role Drift: ['ROLE_ADMIN'] -> ['ROLE_USER']
+
+6. Service: ts-rebook-service/src/main/resources/application.yml
+   - Rule Index: 13
+   - Endpoint:   /api/v1/rebookservice/**
+   - Method:     ANY
+   - Role Drift: ['ROLE_ADMIN', 'ROLE_USER'] -> ['ROLE_USER']
+
+7. Service: ts-price-service/src/main/resources/application.yml
+   - Rule Index: 2
+   - Endpoint:   /api/v1/priceservice/prices
+   - Method:     PUT
+   - Role Drift: ['ROLE_ADMIN'] -> ['authenticated']
+
+8. Service: ts-food-service/src/main/resources/application.yml
+   - Rule Index: 2
+   - Endpoint:   /api/v1/foodservice/orders
+   - Method:     POST
+   - Role Drift: ['ROLE_ADMIN'] -> ['ROLE_USER']
+
+9. Service: ts-cancel-service/src/main/resources/application.yml
+   - Rule Index: 0
+   - Endpoint:   /swagger-ui.html
+   - Method:     ANY
+   - Role Drift: ['permitAll'] -> ['authenticated']
+
+10. Service: ts-security-service/src/main/resources/application.yml
+   - Rule Index: 5
+   - Endpoint:   /api/v1/consignpriceservice/**
+   - Method:     ANY
+   - Role Drift: ['ROLE_ADMIN', 'ROLE_USER'] -> ['ROLE_ADMIN']
+
+11. Service: ts-route-service/src/main/resources/application.yml
+   - Rule Index: 1
+   - Endpoint:   /api/v1/routeservice/routes
+   - Method:     POST
+   - Role Drift: ['ROLE_ADMIN'] -> ['authenticated']
+
+12. Service: ts-admin-service/src/main/resources/application.yml
+   - Rule Index: 0
+   - Endpoint:   /api/v1/adminbasicservice/adminbasic/stations
+   - Method:     GET
+   - Role Drift: ['permitAll'] -> ['authenticated']
+
+--- End of Report ---

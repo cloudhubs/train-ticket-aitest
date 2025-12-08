@@ -1,15 +1,14 @@
 server:
-  port: 8900
+  port: 8887
 spring:
   application:
-    name: ts-order-service
+    name: ts-admin-service
   cloud:
     consul:
       config:
         enabled: false
       discovery:
-        instance-id: 
-          ${spring.application.name}-${server.port}-${random.int[1,99]}
+        instance-id: ${spring.application.name}-${server.port}-${random.int[1,99]}
         prefer-ip-address: true
       host: ${CONSUL_HOST:localhost}
       port: 8500
@@ -19,8 +18,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     password: admin@123#
-    url: 
-      jdbc:mysql://${MYSQL_HOST:localhost}:3306/ts-order-service?createDatabaseIfNotExist=true
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/ts-admin-service?createDatabaseIfNotExist=true
     username: root
     hikari:
       maximum-pool-size: 2
@@ -29,13 +27,15 @@ spring:
       ddl-auto: update
 security:
   authorization-rules:
-    - paths: ["/api/v1/userservice/users/*"]
-      method: "DELETE"
-      authorities: ['ROLE_USER']
-    - paths: ["/api/v1/userservice/users/**"]
+    - paths:
+        - "/api/v1/adminbasicservice/adminbasic/stations"
+        - "/api/v1/adminbasicservice/adminbasic/trains"
+        - "/api/v1/adminbasicservice/adminbasic/prices"
+        - "/api/v1/adminbasicservice/adminbasic/configs"
+        - "/api/v1/adminbasicservice/adminbasic/contacts"
+      method: "GET"
       authorities: ["permitAll"]
     - paths:
-        - "/api/v1/travelplanservice/**"
         - "/swagger-ui.html"
         - "/webjars/**"
         - "/images/**"
@@ -43,9 +43,5 @@ security:
         - "/swagger-resources/**"
         - "/v2/**"
       authorities: ["permitAll"]
-    - paths: ["/api/v1/adminorderservice/**"]
+    - paths: ["/api/v1/adminbasicservice/**"]
       authorities: ["ROLE_ADMIN"]
-    - paths: ["/api/v1/preserveservice/**"]
-      authorities: ["ROLE_ADMIN", "ROLE_USER"]
-    - paths: ["/api/v1/preserveotherservice/**"]
-      authorities: ["ROLE_ADMIN", "ROLE_USER"]

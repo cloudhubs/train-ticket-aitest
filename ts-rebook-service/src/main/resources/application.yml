@@ -8,7 +8,8 @@ spring:
       config:
         enabled: false
       discovery:
-        instance-id: ${spring.application.name}-${server.port}-${random.int[1,99]}
+        instance-id: 
+          ${spring.application.name}-${server.port}-${random.int[1,99]}
         prefer-ip-address: true
       host: ${CONSUL_HOST:localhost}
       port: 8500
@@ -18,7 +19,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     password: admin@123#
-    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/ts-rebook-service?createDatabaseIfNotExist=true
+    url: 
+      jdbc:mysql://${MYSQL_HOST:localhost}:3306/ts-rebook-service?createDatabaseIfNotExist=true
     username: root
     hikari:
       maximum-pool-size: 2
@@ -27,36 +29,36 @@ spring:
       ddl-auto: update
 security:
   authorization-rules:
-    - paths: [ "/api/v1/travelservice/trips" ]
+    - paths: ["/api/v1/travelservice/trips"]
       method: "PUT"
-      authorities: [ "ROLE_ADMIN" ]
-    - paths: [ "/api/v1/travelservice/trips/*" ]
+      authorities: ["ROLE_ADMIN"]
+    - paths: ["/api/v1/travelservice/trips/*"]
       method: "DELETE"
-      authorities: [ "ROLE_ADMIN" ]
-    - paths: [ "/api/v1/travel2service/trips" ]
+      authorities: ["ROLE_ADMIN"]
+    - paths: ["/api/v1/travel2service/trips"]
       method: "PUT"
-      authorities: [ "ROLE_ADMIN" ]
-    - paths: [ "/api/v1/travel2service/trips" ]
+      authorities: ["ROLE_ADMIN"]
+    - paths: ["/api/v1/travel2service/trips"]
       method: "POST"
-      authorities: [ "ROLE_ADMIN" ]
-    - paths: [ "/api/v1/travel2service/trips" ]
+      authorities: ["ROLE_ADMIN"]
+    - paths: ["/api/v1/travel2service/trips"]
       method: "DELETE"
-      authorities: [ "ROLE_ADMIN" ]
-    - paths: [ "/api/v1/waitorderservice/order" ]
+      authorities: ["ROLE_ADMIN"]
+    - paths: ["/api/v1/waitorderservice/order"]
       method: "POST"
-      authorities: [ "ROLE_USER" ]
-    - paths: [ "/api/v1/waitorderservice/orders" ]
+      authorities: ["ROLE_USER"]
+    - paths: ["/api/v1/waitorderservice/orders"]
       method: "GET"
-      authorities: [ "ROLE_USER" ]
-    - paths: [ "/api/v1/waitorderservice/waitlistorders" ]
+      authorities: ["ROLE_USER"]
+    - paths: ["/api/v1/waitorderservice/waitlistorders"]
       method: "GET"
-      authorities: [ "ROLE_USER" ]
-    - paths: [ "/api/v1/waitorderservice/welcome" ]
-      authorities: [ "permitAll" ]
-    - paths: [ "/api/v1/travelservice/**" ]
-      authorities: [ "permitAll" ]
-    - paths: [ "/api/v1/travel2service/**" ]
-      authorities: [ "permitAll" ]
+      authorities: ["ROLE_USER"]
+    - paths: ["/api/v1/waitorderservice/welcome"]
+      authorities: ["permitAll"]
+    - paths: ["/api/v1/travelservice/**"]
+      authorities: ["permitAll"]
+    - paths: ["/api/v1/travel2service/**"]
+      authorities: ["permitAll"]
     - paths:
         - "/api/v1/routeplanservice/**"
         - "/swagger-ui.html"
@@ -68,5 +70,5 @@ security:
       authorities: ["permitAll"]
     - paths: ["/api/v1/admintravelservice/**"]
       authorities: ["ROLE_ADMIN"]
-    - paths: [ "/api/v1/rebookservice/**" ]
-      authorities: [ "ROLE_ADMIN", "ROLE_USER" ]
+    - paths: ["/api/v1/rebookservice/**"]
+      authorities: ['ROLE_USER']

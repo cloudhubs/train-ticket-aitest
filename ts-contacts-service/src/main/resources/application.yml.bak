@@ -1,15 +1,14 @@
 server:
-  port: 8905
+  port: 8894
 spring:
   application:
-    name: ts-security-service
+    name: ts-contacts-service
   cloud:
     consul:
       config:
         enabled: false
       discovery:
-        instance-id: 
-          ${spring.application.name}-${server.port}-${random.int[1,99]}
+        instance-id: ${spring.application.name}-${server.port}-${random.int[1,99]}
         prefer-ip-address: true
       host: ${CONSUL_HOST:localhost}
       port: 8500
@@ -19,8 +18,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     password: admin@123#
-    url: 
-      jdbc:mysql://${MYSQL_HOST:localhost}:3306/ts-security-service?createDatabaseIfNotExist=true
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/ts-contacts-service?createDatabaseIfNotExist=true
     username: root
     hikari:
       maximum-pool-size: 2
@@ -29,17 +27,15 @@ spring:
       ddl-auto: update
 security:
   authorization-rules:
-    - paths: ["/api/v1/configservice/configs"]
+    - paths: [ "/api/v1/stationservice/stations" ]
       method: "POST"
-      authorities: ["ROLE_ADMIN"]
-    - paths: ["/api/v1/configservice/configs"]
+      authorities: [ "ROLE_ADMIN" ]
+    - paths: [ "/api/v1/stationservice/stations" ]
       method: "PUT"
-      authorities: ["ROLE_ADMIN"]
-    - paths: ["/api/v1/configservice/configs/*"]
+      authorities: [ "ROLE_ADMIN" ]
+    - paths: [ "/api/v1/stationservice/stations" ]
       method: "DELETE"
-      authorities: ["ROLE_ADMIN"]
-    - paths: ["/api/v1/configservice/**"]
-      authorities: ["permitAll"]
+      authorities: [ "ROLE_ADMIN" ]
     - paths:
         - "/swagger-ui.html"
         - "/webjars/**"
@@ -48,7 +44,7 @@ security:
         - "/swagger-resources/**"
         - "/v2/**"
       authorities: ["permitAll"]
-    - paths: ["/api/v1/consignpriceservice/**"]
-      authorities: ['ROLE_ADMIN']
-    - paths: ["/api/v1/securityservice/**"]
+    - paths: ["/api/v1/contactservice/**"]
       authorities: ["ROLE_ADMIN", "ROLE_USER"]
+    - paths: [ "/api/v1/stationservice/**" ]
+      authorities: [ "permitAll" ]

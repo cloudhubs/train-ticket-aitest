@@ -8,8 +8,7 @@ spring:
       config:
         enabled: false
       discovery:
-        instance-id: 
-          ${spring.application.name}-${server.port}-${random.int[1,99]}
+        instance-id: ${spring.application.name}-${server.port}-${random.int[1,99]}
         prefer-ip-address: true
       host: ${CONSUL_HOST:localhost}
       port: 8500
@@ -19,8 +18,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     password: admin@123#
-    url: 
-      jdbc:mysql://${MYSQL_HOST:localhost}:3306/ts-cancel-service?createDatabaseIfNotExist=true
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/ts-cancel-service?createDatabaseIfNotExist=true
     username: root
     hikari:
       maximum-pool-size: 2
@@ -36,6 +34,6 @@ security:
         - "/configuration/**"
         - "/swagger-resources/**"
         - "/v2/**"
-      authorities: ['authenticated']
+      authorities: ["permitAll"]
     - paths: ["/api/v1/cancelservice/**"]
       authorities: ["ROLE_ADMIN", "ROLE_USER"]
