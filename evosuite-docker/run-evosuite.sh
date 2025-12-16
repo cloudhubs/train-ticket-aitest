@@ -94,6 +94,8 @@ rm -f "$WORK_DIR/src/main/java/com/cloudhubs/trainticket/"*/config/SwaggerConfig
 rm -f "$WORK_DIR/src/main/java/com/cloudhubs/trainticket/"*/config/EmailConfig.java 2>/dev/null || true
 rm -f "$WORK_DIR/src/main/java/com/cloudhubs/trainticket/"*/config/Queues.java 2>/dev/null || true
 rm -f "$WORK_DIR/src/main/java/com/cloudhubs/trainticket/"*/*Application.java 2>/dev/null || true
+# Remove RabbitMQ/messaging files (require spring-amqp not needed for controller testing)
+rm -rf "$WORK_DIR/src/main/java/com/cloudhubs/trainticket/"*/mq/ 2>/dev/null || true
 
 # Create pom.xml with Spring Boot 2.7.x (Java 11 compatible)
 cat > "$WORK_DIR/pom.xml" << 'EVOPOM'
