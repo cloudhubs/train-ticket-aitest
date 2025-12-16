@@ -1,0 +1,34 @@
+=============================================
+DETAILED ERROR REPORT
+=============================================
+
+Endpoint ID:   3
+Run Number:    2
+Error Type:    NO_CLASS_FILES
+
+=== MAVEN/COMPILATION ERRORS ===
+[ERROR] /project/src/main/java/com/cloudhubs/trainticket/cancel/service/TestFeign.java:[3,43] package org.springframework.cloud.openfeign does not exist
+[ERROR] /project/src/main/java/com/cloudhubs/trainticket/cancel/service/TestFeign.java:[7,2] cannot find symbol
+[ERROR] /project/src/main/java/com/cloudhubs/trainticket/cancel/service/AssuranceService.java:[7,27] package jakarta.transaction does not exist
+[ERROR] /project/src/main/java/com/cloudhubs/trainticket/cancel/repository/AssuranceRepository.java:[7,27] package jakarta.transaction does not exist
+[ERROR] /project/src/main/java/com/cloudhubs/trainticket/cancel/service/impl/TravelServiceImpl.java:[24,27] package jakarta.transaction does not exist
+[ERROR] /project/src/main/java/com/cloudhubs/trainticket/cancel/service/impl/FoodServiceImpl.java:[4,43] package com.cloudhubs.trainticket.cancel.mq does not exist
+[ERROR] /project/src/main/java/com/cloudhubs/trainticket/cancel/service/impl/FoodServiceImpl.java:[35,13] cannot find symbol
+[ERROR] /project/src/main/java/com/cloudhubs/trainticket/cancel/repository/AssuranceRepository.java:[39,6] cannot find symbol
+[ERROR] /project/src/main/java/com/cloudhubs/trainticket/cancel/repository/AssuranceRepository.java:[48,6] cannot find symbol
+[ERROR] /project/src/main/java/com/cloudhubs/trainticket/cancel/service/AssuranceService.java:[51,6] cannot find symbol
+[ERROR] /project/src/main/java/com/cloudhubs/trainticket/cancel/service/AssuranceService.java:[61,6] cannot find symbol
+[ERROR] /project/src/main/java/com/cloudhubs/trainticket/cancel/service/impl/TravelServiceImpl.java:[161,6] cannot find symbol
+
+=== EXCEPTIONS/STACK TRACES ===
+Error: No class files generated
+
+=== ERROR COUNTS ===
+Missing packages:    5
+Cannot find symbol:  7
+
+=== MISSING PACKAGES (unique) ===
+package com.cloudhubs.trainticket.cancel.mq does not exist
+package jakarta.transaction does not exist
+package org.springframework.cloud.openfeign does not exist
+

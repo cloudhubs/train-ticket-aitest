@@ -1,0 +1,26 @@
+=============================================
+DETAILED ERROR REPORT
+=============================================
+
+Endpoint ID:   13
+Run Number:    1
+Error Type:    NO_CLASS_FILES
+
+=== MAVEN/COMPILATION ERRORS ===
+[ERROR] /project/src/main/java/com/cloudhubs/trainticket/orderrelated/service/AssuranceService.java:[7,27] package jakarta.transaction does not exist
+[ERROR] /project/src/main/java/com/cloudhubs/trainticket/orderrelated/repository/AssuranceRepository.java:[7,27] package jakarta.transaction does not exist
+[ERROR] /project/src/main/java/com/cloudhubs/trainticket/orderrelated/service/AssuranceService.java:[51,6] cannot find symbol
+[ERROR] /project/src/main/java/com/cloudhubs/trainticket/orderrelated/service/AssuranceService.java:[61,6] cannot find symbol
+[ERROR] /project/src/main/java/com/cloudhubs/trainticket/orderrelated/repository/AssuranceRepository.java:[40,6] cannot find symbol
+[ERROR] /project/src/main/java/com/cloudhubs/trainticket/orderrelated/repository/AssuranceRepository.java:[49,6] cannot find symbol
+
+=== EXCEPTIONS/STACK TRACES ===
+Error: No class files generated
+
+=== ERROR COUNTS ===
+Missing packages:    2
+Cannot find symbol:  4
+
+=== MISSING PACKAGES (unique) ===
+package jakarta.transaction does not exist
+

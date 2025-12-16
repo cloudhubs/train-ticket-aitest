@@ -1,0 +1,21 @@
+{
+    "endpoint_id": 2,
+    "run_number": 1,
+    "generation_status": "SUCCESS",
+    "exit_code": 0,
+    "timed_out": false,
+    "hung_up": false,
+    "error_type": "RMI_SERIALIZATION",
+    "error_message": "	java.lang.NoClassDefFoundError: org/springframework/http/HttpEntity ",
+    "runs_without_error": true,
+    "threw_errors": false,
+    "error_counts": {
+        "total_errors": 0
+0,
+        "missing_packages": 0
+0,
+        "cannot_find_symbol": 0
+0
+    },
+    "error_details_file": "error-details.txt"
+}

@@ -1,0 +1,16 @@
+{
+    "endpoint_id": 8,
+    "run_number": 3,
+    "start_timestamp": "2025-12-16T02:57:37Z",
+    "end_timestamp": "2025-12-16T02:59:46Z",
+    "duration_seconds": 128.607065000,
+    "search_budget_seconds": 120,
+    "cpu_average_percent": 122.57,
+    "memory_peak_mb": 749.4,
+    "tests_generated": 1,
+    "test_methods": 9,
+    "assertions": 16,
+    "coverage": "0.8449074074074074",
+    "total_goals": "55",
+    "covered_goals": "49"
+}

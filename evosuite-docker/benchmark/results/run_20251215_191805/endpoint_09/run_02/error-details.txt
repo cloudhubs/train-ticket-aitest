@@ -1,0 +1,24 @@
+=============================================
+DETAILED ERROR REPORT
+=============================================
+
+Endpoint ID:   9
+Run Number:    2
+Error Type:    NO_CLASS_FILES
+
+=== MAVEN/COMPILATION ERRORS ===
+[ERROR] /project/src/main/java/com/cloudhubs/trainticket/order/service/impl/PreserveServiceImpl.java:[35,42] package com.cloudhubs.trainticket.order.mq does not exist
+[ERROR] /project/src/main/java/com/cloudhubs/trainticket/order/service/impl/PreserveServiceImpl.java:[53,13] cannot find symbol
+[ERROR] /project/src/main/java/com/cloudhubs/trainticket/order/service/impl/PreserveOtherServiceImpl.java:[36,42] package com.cloudhubs.trainticket.order.mq does not exist
+[ERROR] /project/src/main/java/com/cloudhubs/trainticket/order/service/impl/PreserveOtherServiceImpl.java:[54,13] cannot find symbol
+
+=== EXCEPTIONS/STACK TRACES ===
+Error: No class files generated
+
+=== ERROR COUNTS ===
+Missing packages:    2
+Cannot find symbol:  2
+
+=== MISSING PACKAGES (unique) ===
+package com.cloudhubs.trainticket.order.mq does not exist
+

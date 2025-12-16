@@ -1,0 +1,18 @@
+{
+    "endpoint_id": 3,
+    "run_number": 3,
+    "generation_status": "FAILED",
+    "exit_code": 1,
+    "timed_out": false,
+    "hung_up": false,
+    "error_type": "NO_CLASS_FILES",
+    "error_message": "No class files generated - compilation failed: [ERROR] /project/src/main/java/com/cloudhubs/trainticket/cancel/service/TestFeign.java:[3,43] package org.springframework.cloud.openfeign does not exist [ERROR] /project/src/main/java/com/cloudhubs/trainticket/cancel/service/TestFeign.java:[7,2] cannot find symbol [ERROR] /project/src/main/java/com/cloudhubs/trainticket/cancel/service/AssuranceService.java:[7,27] package jakarta.transaction does not exist  ",
+    "runs_without_error": false,
+    "threw_errors": true,
+    "error_counts": {
+        "total_errors": 12,
+        "missing_packages": 5,
+        "cannot_find_symbol": 7
+    },
+    "error_details_file": "error-details.txt"
+}

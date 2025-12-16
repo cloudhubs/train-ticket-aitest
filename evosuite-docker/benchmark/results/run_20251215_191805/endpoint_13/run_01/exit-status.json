@@ -1,0 +1,18 @@
+{
+    "endpoint_id": 13,
+    "run_number": 1,
+    "generation_status": "FAILED",
+    "exit_code": 1,
+    "timed_out": false,
+    "hung_up": false,
+    "error_type": "NO_CLASS_FILES",
+    "error_message": "No class files generated - compilation failed: [ERROR] /project/src/main/java/com/cloudhubs/trainticket/orderrelated/service/AssuranceService.java:[7,27] package jakarta.transaction does not exist [ERROR] /project/src/main/java/com/cloudhubs/trainticket/orderrelated/repository/AssuranceRepository.java:[7,27] package jakarta.transaction does not exist [ERROR] /project/src/main/java/com/cloudhubs/trainticket/orderrelated/service/AssuranceService.java:[51,6] cannot find symbol  ",
+    "runs_without_error": false,
+    "threw_errors": true,
+    "error_counts": {
+        "total_errors": 6,
+        "missing_packages": 2,
+        "cannot_find_symbol": 4
+    },
+    "error_details_file": "error-details.txt"
+}

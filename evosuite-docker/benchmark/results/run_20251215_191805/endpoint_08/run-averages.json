@@ -1,0 +1,101 @@
+{
+  "endpoint_id": 8,
+  "aggregation_timestamp": "2025-12-16T02:59:46.241868Z",
+  "total_runs": 3,
+  "successful_runs": 0,
+  "failed_runs": 3,
+  "success_rate": 0.0,
+  "generation_time": {
+    "avg": 128.695,
+    "min": 128.5707,
+    "max": 128.9073,
+    "std_dev": 0.1847,
+    "count": 3
+  },
+  "cpu_usage": {
+    "avg": 124.7367,
+    "min": 122.57,
+    "max": 127.2,
+    "std_dev": 2.3292,
+    "count": 3
+  },
+  "memory_usage": {
+    "avg": 760.3,
+    "min": 733.1,
+    "max": 798.4,
+    "std_dev": 33.9872,
+    "count": 3
+  },
+  "tests_generated": {
+    "avg": 1.0,
+    "min": 1.0,
+    "max": 1.0,
+    "std_dev": 0.0,
+    "count": 3
+  },
+  "test_methods": {
+    "avg": 9.0,
+    "min": 9.0,
+    "max": 9.0,
+    "std_dev": 0.0,
+    "count": 3
+  },
+  "assertions": {
+    "avg": 16.0,
+    "min": 16.0,
+    "max": 16.0,
+    "std_dev": 0.0,
+    "count": 3
+  },
+  "exit_codes": {
+    "values": [
+      -1,
+      -1,
+      -1
+    ],
+    "unique": [
+      -1
+    ]
+  },
+  "timed_out_count": 0,
+  "hung_up_count": 0,
+  "error_summary": {
+    "primary_error_type": "NONE",
+    "error_types": {},
+    "total_compilation_errors": null,
+    "missing_packages_errors": null,
+    "unique_error_messages": []
+  },
+  "individual_runs": [
+    {
+      "run_number": 1,
+      "duration_sec": 128.907279,
+      "cpu_pct": 124.44,
+      "memory_mb": 733.1,
+      "tests": 1,
+      "exit_code": null,
+      "error_type": "",
+      "error_message": ""
+    },
+    {
+      "run_number": 2,
+      "duration_sec": 128.570702,
+      "cpu_pct": 127.2,
+      "memory_mb": 798.4,
+      "tests": 1,
+      "exit_code": null,
+      "error_type": "",
+      "error_message": ""
+    },
+    {
+      "run_number": 3,
+      "duration_sec": 128.607065,
+      "cpu_pct": 122.57,
+      "memory_mb": 749.4,
+      "tests": 1,
+      "exit_code": null,
+      "error_type": "",
+      "error_message": ""
+    }
+  ]
+}

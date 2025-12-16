@@ -1,0 +1,18 @@
+{
+    "endpoint_id": 9,
+    "run_number": 2,
+    "generation_status": "FAILED",
+    "exit_code": 1,
+    "timed_out": false,
+    "hung_up": false,
+    "error_type": "NO_CLASS_FILES",
+    "error_message": "No class files generated - compilation failed: [ERROR] /project/src/main/java/com/cloudhubs/trainticket/order/service/impl/PreserveServiceImpl.java:[35,42] package com.cloudhubs.trainticket.order.mq does not exist [ERROR] /project/src/main/java/com/cloudhubs/trainticket/order/service/impl/PreserveServiceImpl.java:[53,13] cannot find symbol [ERROR] /project/src/main/java/com/cloudhubs/trainticket/order/service/impl/PreserveOtherServiceImpl.java:[36,42] package com.cloudhubs.trainticket.order.mq d",
+    "runs_without_error": false,
+    "threw_errors": true,
+    "error_counts": {
+        "total_errors": 4,
+        "missing_packages": 2,
+        "cannot_find_symbol": 2
+    },
+    "error_details_file": "error-details.txt"
+}

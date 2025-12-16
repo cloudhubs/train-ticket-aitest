@@ -1,0 +1,18 @@
+{
+    "endpoint_id": 10,
+    "run_number": 2,
+    "generation_status": "FAILED",
+    "exit_code": 1,
+    "timed_out": false,
+    "hung_up": false,
+    "error_type": "NO_CLASS_FILES",
+    "error_message": "No class files generated - compilation failed: [ERROR] /project/src/main/java/com/cloudhubs/trainticket/preserve/service/impl/PreserveOtherServiceImpl.java:[36,45] package com.cloudhubs.trainticket.preserve.mq does not exist [ERROR] /project/src/main/java/com/cloudhubs/trainticket/preserve/service/impl/PreserveOtherServiceImpl.java:[54,13] cannot find symbol [ERROR] /project/src/main/java/com/cloudhubs/trainticket/preserve/service/impl/TravelService2Impl.java:[43,27] package jakarta.transaction ",
+    "runs_without_error": false,
+    "threw_errors": true,
+    "error_counts": {
+        "total_errors": 6,
+        "missing_packages": 3,
+        "cannot_find_symbol": 3
+    },
+    "error_details_file": "error-details.txt"
+}

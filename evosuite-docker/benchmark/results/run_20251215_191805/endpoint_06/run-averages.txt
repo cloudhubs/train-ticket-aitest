@@ -1,0 +1,60 @@
+============================================================
+ENDPOINT 6 - AGGREGATED RESULTS
+============================================================
+
+Aggregation Timestamp: 2025-12-16T02:46:12.724772Z
+
+EXECUTION SUMMARY
+----------------------------------------
+Total Runs:      3
+Successful:      0
+Failed:          3
+Success Rate:    0.0%
+Timed Out:       0
+Hung Up:         0
+
+ERROR SUMMARY
+----------------------------------------
+Primary Error:   NO_CLASS_FILES
+Error Types:
+  - NO_CLASS_FILES: 3
+Avg Compilation Errors: 4.0
+
+Sample Error Messages:
+  • No class files generated - compilation failed: [ERROR] /project/src/main/java/com/cloudhubs/traintic...
+
+GENERATION TIME (seconds)
+----------------------------------------
+Average:         3.3439
+Min:             3.2386
+Max:             3.4906
+Std Dev:         0.131
+
+CPU USAGE (%)
+----------------------------------------
+Average:         N/A
+Min:             N/A
+Max:             N/A
+Std Dev:         N/A
+
+MEMORY USAGE (MB)
+----------------------------------------
+Average:         N/A
+Min:             N/A
+Max:             N/A
+Std Dev:         N/A
+
+TESTS GENERATED
+----------------------------------------
+Average:         0.0
+Total:           0
+
+INDIVIDUAL RUNS
+----------------------------------------
+Run    Time(s)    CPU(%)     Mem(MB)    Tests    Exit   Error
+----------------------------------------------------------------------
+1      3.3        N/A        N/A        0        1      NO_CLASS_FILES
+2      3.5        N/A        N/A        0        1      NO_CLASS_FILES
+3      3.2        N/A        N/A        0        1      NO_CLASS_FILES
+
+============================================================
