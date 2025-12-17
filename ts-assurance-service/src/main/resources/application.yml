@@ -10,6 +10,7 @@ spring:
       discovery:
         instance-id: ${spring.application.name}-${server.port}-${random.int[1,99]}
         prefer-ip-address: true
+        health-check-critical-timeout: 2m
       host: ${CONSUL_HOST:localhost}
       port: 8500
   rabbitmq:
@@ -36,7 +37,7 @@ security:
     - paths: ["/api/v1/trainservice/trains/*"]
       method: "DELETE"
       authorities: ["ROLE_ADMIN"]
-    - paths: ["/api/v1/trainservice/**"]
+    - paths: ["/actuator/health", "/api/v1/trainservice/**"]
       authorities: ["permitAll"]
     - paths:
         - "/swagger-ui.html"
