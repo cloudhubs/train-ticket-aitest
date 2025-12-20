@@ -29,4 +29,20 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.UNAUTHORIZED)
                 .body(new Response<>(0, ex.getMessage(), null));
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Response> handleIllegalArgumentException(IllegalArgumentException ex) {
+        LOGGER.error("[GlobalExceptionHandler][Illegal argument: {}]", ex.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new Response<>(0, ex.getMessage(), null));
+    }
+
+    @ExceptionHandler(java.util.NoSuchElementException.class)
+    public ResponseEntity<Response> handleNoSuchElementException(java.util.NoSuchElementException ex) {
+        LOGGER.error("[GlobalExceptionHandler][Not found: {}]", ex.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(new Response<>(0, "Resource not found", null));
+    }
 }
