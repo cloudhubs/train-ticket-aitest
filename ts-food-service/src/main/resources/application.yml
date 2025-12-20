@@ -11,6 +11,7 @@ spring:
         instance-id: 
           ${spring.application.name}-${server.port}-${random.int[1,99]}
         prefer-ip-address: true
+        health-check-critical-timeout: 2m
       host: ${CONSUL_HOST:localhost}
       port: 8500
   rabbitmq:
@@ -29,6 +30,8 @@ spring:
       ddl-auto: update
 security:
   authorization-rules:
+    - paths: ["/actuator/health"]
+      authorities: ["permitAll"]
     - paths: ["/api/v1/foodservice/orders/*"]
       method: "DELETE"
       authorities: ["ROLE_ADMIN"]

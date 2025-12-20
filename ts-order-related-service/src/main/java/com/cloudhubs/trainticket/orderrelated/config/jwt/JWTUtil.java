@@ -2,6 +2,9 @@ package com.cloudhubs.trainticket.orderrelated.config.jwt;
 
 import com.cloudhubs.trainticket.orderrelated.exception.TokenException;
 import io.jsonwebtoken.*;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
+import javax.crypto.SecretKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,7 +24,8 @@ import java.util.stream.Collectors;
 public class JWTUtil {
     private JWTUtil() { throw new IllegalStateException("Utility class"); }
     private static final Logger LOGGER = LoggerFactory.getLogger(JWTUtil.class);
-    private static String secretKey = Base64.getEncoder().encodeToString("super_secret_used_to_sing_with_32_bits".getBytes());
+    private static String secretKeyString = Base64.getEncoder().encodeToString("super_secret_used_to_sing_with_32_bits".getBytes());
+    private static SecretKey secretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKeyString));
 
     public static Authentication getJWTAuthentication(ServletRequest request) {
         String token = getTokenFromHeader((HttpServletRequest) request);
