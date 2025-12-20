@@ -8,9 +8,10 @@ spring:
       config:
         enabled: false
       discovery:
-        instance-id: 
+        instance-id:
           ${spring.application.name}-${server.port}-${random.int[1,99]}
         prefer-ip-address: true
+        health-check-critical-timeout: 2m
       host: ${CONSUL_HOST:localhost}
       port: 8500
   rabbitmq:
@@ -19,7 +20,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     password: admin@123#
-    url: 
+    url:
       jdbc:mysql://${MYSQL_HOST:localhost}:3306/ts-assurance-service?createDatabaseIfNotExist=true
     username: root
     hikari:
