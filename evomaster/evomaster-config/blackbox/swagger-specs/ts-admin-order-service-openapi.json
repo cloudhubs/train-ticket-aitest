@@ -1,0 +1,179 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Train Ticket Admin Order Service API",
+    "description": "OpenAPI specification for Train Ticket Admin Order Service",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8888/api/v1",
+      "description": "Gateway Server"
+    }
+  ],
+  "paths": {
+    "/adminorderservice/adminorder/{orderId}/{trainNumber}": {
+      "delete": {
+        "tags": ["admin-order-service"],
+        "summary": "Delete an order (admin)",
+        "operationId": "adminDeleteOrder",
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "trainNumber",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Order deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Order not found"
+          }
+        }
+      }
+    },
+    "/adminorderservice/adminorder": {
+      "put": {
+        "tags": ["admin-order-service"],
+        "summary": "Update an order (admin)",
+        "operationId": "adminUpdateOrder",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Order"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Order updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Order": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "boughtDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "travelDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "travelTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "accountId": {
+            "type": "string"
+          },
+          "contactsName": {
+            "type": "string"
+          },
+          "documentType": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "contactsDocumentNumber": {
+            "type": "string"
+          },
+          "trainNumber": {
+            "type": "string"
+          },
+          "coachNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "seatClass": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "seatNumber": {
+            "type": "string"
+          },
+          "from": {
+            "type": "string"
+          },
+          "to": {
+            "type": "string"
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
+      "Response": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "msg": {
+            "type": "string"
+          },
+          "data": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ]
+}
+
+

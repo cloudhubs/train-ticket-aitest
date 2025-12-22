@@ -1,0 +1,143 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Train Ticket Preserve Service API",
+    "description": "OpenAPI specification for Train Ticket Preserve Service",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8888/api/v1",
+      "description": "Gateway Server"
+    }
+  ],
+  "paths": {
+    "/preserveservice/preserve": {
+      "post": {
+        "tags": ["preserve-service"],
+        "summary": "Preserve a ticket",
+        "operationId": "preserveTicket",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderTicketsInfo"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Ticket preserved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Response"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "OrderTicketsInfo": {
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "string"
+          },
+          "contactsId": {
+            "type": "string"
+          },
+          "tripId": {
+            "type": "string"
+          },
+          "seatType": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "from": {
+            "type": "string"
+          },
+          "to": {
+            "type": "string"
+          },
+          "assurance": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "foodType": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "foodName": {
+            "type": "string"
+          },
+          "foodPrice": {
+            "type": "number",
+            "format": "double"
+          },
+          "stationName": {
+            "type": "string"
+          },
+          "storeName": {
+            "type": "string"
+          },
+          "handleDate": {
+            "type": "string"
+          },
+          "consigneeName": {
+            "type": "string"
+          },
+          "consigneePhone": {
+            "type": "string"
+          },
+          "consigneeWeight": {
+            "type": "number",
+            "format": "double"
+          },
+          "isWithin": {
+            "type": "boolean"
+          }
+        }
+      },
+      "Response": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "msg": {
+            "type": "string"
+          },
+          "data": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ]
+}
+
+
