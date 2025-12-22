@@ -1,0 +1,234 @@
+{
+    "file_name": "EvoMaster_Test_faults.java",
+    "size": {
+        "total_lines": 122,
+        "logical_loc": 66,
+        "blank_lines": 23,
+        "comment_lines": 33,
+        "comment_ratio": 27.0
+    },
+    "complexity": {
+        "cyclomatic_complexity": {
+            "initClass": 1,
+            "test_0_postOnAccountShowsFaults_100_101": 2,
+            "test_1_postOnAccountReturnsMismatchResponseWithSchema": 2
+        },
+        "avg_cyclomatic": 1.7,
+        "max_cyclomatic": 2,
+        "cognitive_complexity": {
+            "initClass": 0,
+            "test_0_postOnAccountShowsFaults_100_101": 1,
+            "test_1_postOnAccountReturnsMismatchResponseWithSchema": 1
+        },
+        "avg_cognitive": 0.7,
+        "max_cognitive": 1,
+        "maintainability_index": 41.2
+    },
+    "test": {
+        "test_method_count": 2,
+        "nested_class_count": 0,
+        "assert_count": 4,
+        "asserts_per_test": 2.0,
+        "long_tests": [],
+        "long_test_count": 0,
+        "aaa_organized_count": 0,
+        "aaa_percentage": 0.0,
+        "tests_with_exception_handling": 0,
+        "exception_handling_percentage": 0.0,
+        "exception_handling_needed": true
+    },
+    "duplication": {
+        "duplicate_segments": 4,
+        "duplicate_lines": 5,
+        "duplicate_percentage": 15.6,
+        "duplicated_blocks": [
+            "@Test @Timeout(60)",
+            ".header(\"Authorization\", \"Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaWQiOiIyZmIyYjZhZS1lMWQ2LTQ2NTUtYTYwZC1lMjcxNzU2ZmQ0YWEiLCJpYXQiOjE3NjYwMzAxNTIsImV4cCI6MTc2NjAzMzc1Mn0.7PX-jZ3Hrg8dabfqRK2BitmNBzE4TBib2tqWcWlycwo\") // Fixed Headers",
+            ".contentType(\"application/json\")",
+            ".post(baseUrlOfSut + \"/api/v1/inside_pay_service/inside_payment/account\")"
+        ]
+    },
+    "code_smells": {
+        "code_smell_count": 8,
+        "code_smells": [
+            {
+                "type": "Too Many Parameters",
+                "location": "header"
+            },
+            {
+                "type": "Too Many Parameters",
+                "location": "body"
+            },
+            {
+                "type": "Too Many Parameters",
+                "location": "header"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "2025"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "8888"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "500"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "499"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "403"
+            }
+        ],
+        "todo_fixme_count": 0,
+        "wildcard_imports": 0,
+        "dead_code_percentage": 0.0,
+        "dead_code_items": []
+    },
+    "conventions": {
+        "follows_conventions": false,
+        "convention_violations": [
+            {
+                "rule": "Class naming",
+                "detail": "EvoMaster_Test_faults should be PascalCase"
+            },
+            {
+                "rule": "Method naming",
+                "detail": "test_0_postOnAccountShowsFaults_100_101 should be camelCase"
+            },
+            {
+                "rule": "Method naming",
+                "detail": "test_1_postOnAccountReturnsMismatchResponseWithSchema should be camelCase"
+            },
+            {
+                "rule": "Line length",
+                "line": 78,
+                "length": 233
+            },
+            {
+                "rule": "Line length",
+                "line": 80,
+                "length": 288
+            },
+            {
+                "rule": "Line length",
+                "line": 106,
+                "length": 233
+            },
+            {
+                "rule": "Line length",
+                "line": 108,
+                "length": 288
+            }
+        ],
+        "violation_count": 7
+    },
+    "framework": {
+        "framework_keyword_violations": 0,
+        "invalid_assertions": [],
+        "non_framework_methods": [],
+        "valid_framework_assertions": true
+    },
+    "types": {
+        "type_errors": 0,
+        "undefined_variables": [],
+        "type_annotation_errors": 0,
+        "generic_type_misuses": []
+    },
+    "syntax": {
+        "syntax_errors": 0,
+        "syntax_error_details": [],
+        "linting_violations": 35,
+        "linting_details": [
+            {
+                "type": "Trailing whitespace",
+                "line": 5
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 48
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 50
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 51
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 61
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 62
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 63
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 64
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 65
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 66
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 67
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 68
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 76
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 82
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 83
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 84
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 96
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 97
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 105
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 110
+            }
+        ]
+    },
+    "design_patterns": {
+        "adheres_to_patterns": true,
+        "patterns_detected": [],
+        "pattern_violations": []
+    }
+}

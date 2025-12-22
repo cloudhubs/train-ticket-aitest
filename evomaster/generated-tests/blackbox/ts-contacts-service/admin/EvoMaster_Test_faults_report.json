@@ -1,0 +1,300 @@
+{
+    "file_name": "EvoMaster_Test_faults.java",
+    "size": {
+        "total_lines": 195,
+        "logical_loc": 111,
+        "blank_lines": 32,
+        "comment_lines": 52,
+        "comment_ratio": 26.7
+    },
+    "complexity": {
+        "cyclomatic_complexity": {
+            "initClass": 1,
+            "test_0_getOnContactsShowsFaults_100_101": 2,
+            "test_1_getOnContactsReturnsMismatchResponseWithSchema": 1,
+            "test_2_deleteOnContactShowsFaults_100_101": 2,
+            "test_3_deleteOnContactReturnsMismatchResponseWithSchema": 1,
+            "test_4_deleteOnContactReturnsMismatchResponseWithSchema": 2
+        },
+        "avg_cyclomatic": 1.5,
+        "max_cyclomatic": 2,
+        "cognitive_complexity": {
+            "initClass": 0,
+            "test_0_getOnContactsShowsFaults_100_101": 1,
+            "test_1_getOnContactsReturnsMismatchResponseWithSchema": 0,
+            "test_2_deleteOnContactShowsFaults_100_101": 1,
+            "test_3_deleteOnContactReturnsMismatchResponseWithSchema": 0,
+            "test_4_deleteOnContactReturnsMismatchResponseWithSchema": 1
+        },
+        "avg_cognitive": 0.5,
+        "max_cognitive": 1,
+        "maintainability_index": 34.5
+    },
+    "test": {
+        "test_method_count": 5,
+        "nested_class_count": 0,
+        "assert_count": 10,
+        "asserts_per_test": 2.0,
+        "long_tests": [
+            "test_1_getOnContactsReturnsMismatchResponseWithSchema (29 lines)"
+        ],
+        "long_test_count": 1,
+        "aaa_organized_count": 0,
+        "aaa_percentage": 0.0,
+        "tests_with_exception_handling": 0,
+        "exception_handling_percentage": 0.0,
+        "exception_handling_needed": true
+    },
+    "duplication": {
+        "duplicate_segments": 10,
+        "duplicate_lines": 18,
+        "duplicate_percentage": 25.0,
+        "duplicated_blocks": [
+            "@Test @Timeout(60)",
+            "given().accept(\"application/json\")",
+            ".get(baseUrlOfSut + \"/api/v1/contactservice/contacts\")",
+            ".statusCode(500)",
+            ".contentType(\"application/json\")"
+        ]
+    },
+    "code_smells": {
+        "code_smell_count": 13,
+        "code_smells": [
+            {
+                "type": "Too Many Parameters",
+                "location": "header"
+            },
+            {
+                "type": "Too Many Parameters",
+                "location": "header"
+            },
+            {
+                "type": "Too Many Parameters",
+                "location": "header"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "2025"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "8888"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "500"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "209"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "200"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "68406"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "500"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "209"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "200"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "403"
+            }
+        ],
+        "todo_fixme_count": 0,
+        "wildcard_imports": 0,
+        "dead_code_percentage": 0.0,
+        "dead_code_items": []
+    },
+    "conventions": {
+        "follows_conventions": false,
+        "convention_violations": [
+            {
+                "rule": "Class naming",
+                "detail": "EvoMaster_Test_faults should be PascalCase"
+            },
+            {
+                "rule": "Method naming",
+                "detail": "test_0_getOnContactsShowsFaults_100_101 should be camelCase"
+            },
+            {
+                "rule": "Method naming",
+                "detail": "test_1_getOnContactsReturnsMismatchResponseWithSchema should be camelCase"
+            },
+            {
+                "rule": "Method naming",
+                "detail": "test_2_deleteOnContactShowsFaults_100_101 should be camelCase"
+            },
+            {
+                "rule": "Method naming",
+                "detail": "test_3_deleteOnContactReturnsMismatchResponseWithSchema should be camelCase"
+            },
+            {
+                "rule": "Method naming",
+                "detail": "test_4_deleteOnContactReturnsMismatchResponseWithSchema should be camelCase"
+            },
+            {
+                "rule": "Line length",
+                "line": 78,
+                "length": 215
+            },
+            {
+                "rule": "Line length",
+                "line": 100,
+                "length": 249
+            },
+            {
+                "rule": "Line length",
+                "line": 102,
+                "length": 288
+            },
+            {
+                "rule": "Line length",
+                "line": 126,
+                "length": 133
+            },
+            {
+                "rule": "Line length",
+                "line": 139,
+                "length": 228
+            },
+            {
+                "rule": "Line length",
+                "line": 141,
+                "length": 288
+            },
+            {
+                "rule": "Line length",
+                "line": 162,
+                "length": 250
+            },
+            {
+                "rule": "Line length",
+                "line": 164,
+                "length": 288
+            },
+            {
+                "rule": "Line length",
+                "line": 184,
+                "length": 228
+            }
+        ],
+        "violation_count": 15
+    },
+    "framework": {
+        "framework_keyword_violations": 0,
+        "invalid_assertions": [],
+        "non_framework_methods": [],
+        "valid_framework_assertions": true
+    },
+    "types": {
+        "type_errors": 0,
+        "undefined_variables": [],
+        "type_annotation_errors": 0,
+        "generic_type_misuses": []
+    },
+    "syntax": {
+        "syntax_errors": 0,
+        "syntax_error_details": [],
+        "linting_violations": 42,
+        "linting_details": [
+            {
+                "type": "Trailing whitespace",
+                "line": 5
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 48
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 50
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 51
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 61
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 62
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 63
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 64
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 65
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 66
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 67
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 68
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 76
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 90
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 91
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 99
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 128
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 129
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 137
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 152
+            }
+        ]
+    },
+    "design_patterns": {
+        "adheres_to_patterns": true,
+        "patterns_detected": [],
+        "pattern_violations": []
+    }
+}

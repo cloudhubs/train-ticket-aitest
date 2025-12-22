@@ -1,0 +1,469 @@
+{
+    "file_name": "EvoMaster_Test_faults.java",
+    "size": {
+        "total_lines": 285,
+        "logical_loc": 180,
+        "blank_lines": 38,
+        "comment_lines": 67,
+        "comment_ratio": 23.5
+    },
+    "complexity": {
+        "cyclomatic_complexity": {
+            "initClass": 1,
+            "test_0_getOnPricesShowsFaults_100_101": 2,
+            "test_1_getOnPricesShowsFaults_100_101": 4,
+            "test_2_postOnPricesShowsFaults_100_101": 2,
+            "test_3_postOnPricesReturnsMismatchResponseWithSchema": 2,
+            "test_4_deleteOnStationShowsFaults_100_101": 2,
+            "test_5_deleteOnStationReturnsMismatchResponseWithSchema": 1
+        },
+        "avg_cyclomatic": 2.0,
+        "max_cyclomatic": 4,
+        "cognitive_complexity": {
+            "initClass": 0,
+            "test_0_getOnPricesShowsFaults_100_101": 1,
+            "test_1_getOnPricesShowsFaults_100_101": 3,
+            "test_2_postOnPricesShowsFaults_100_101": 1,
+            "test_3_postOnPricesReturnsMismatchResponseWithSchema": 1,
+            "test_4_deleteOnStationShowsFaults_100_101": 1,
+            "test_5_deleteOnStationReturnsMismatchResponseWithSchema": 0
+        },
+        "avg_cognitive": 1.0,
+        "max_cognitive": 3,
+        "maintainability_index": 28.4
+    },
+    "test": {
+        "test_method_count": 6,
+        "nested_class_count": 0,
+        "assert_count": 18,
+        "asserts_per_test": 3.0,
+        "long_tests": [
+            "test_1_getOnPricesShowsFaults_100_101 (76 lines)"
+        ],
+        "long_test_count": 1,
+        "aaa_organized_count": 0,
+        "aaa_percentage": 0.0,
+        "tests_with_exception_handling": 0,
+        "exception_handling_percentage": 0.0,
+        "exception_handling_needed": true
+    },
+    "duplication": {
+        "duplicate_segments": 14,
+        "duplicate_lines": 54,
+        "duplicate_percentage": 44.3,
+        "duplicated_blocks": [
+            "@Test @Timeout(60)",
+            "given().accept(\"application/json\")",
+            ".header(\"Authorization\", \"Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGVzIjpbIlJPTEVfQURNSU4iXSwiaWQiOiIyZmIyYjZhZS1lMWQ2LTQ2NTUtYTYwZC1lMjcxNzU2ZmQ0YWEiLCJpYXQiOjE3NjYwMjk5ODAsImV4cCI6MTc2NjAzMzU4MH0.wYo9isGw3fRavSi-W906xTQYYm25YueCV5QFEEoiwb0\") // Fixed Headers",
+            ".get(baseUrlOfSut + \"/api/v1/adminbasicservice/adminbasic/prices\")",
+            ".statusCode(500)"
+        ]
+    },
+    "code_smells": {
+        "code_smell_count": 41,
+        "code_smells": [
+            {
+                "type": "Long Method",
+                "location": "test_1_getOnPricesShowsFaults_100_101",
+                "detail": "76 lines"
+            },
+            {
+                "type": "Too Many Parameters",
+                "location": "header"
+            },
+            {
+                "type": "Too Many Parameters",
+                "location": "header"
+            },
+            {
+                "type": "Too Many Parameters",
+                "location": "body"
+            },
+            {
+                "type": "Too Many Parameters",
+                "location": "header"
+            },
+            {
+                "type": "Too Many Parameters",
+                "location": "body"
+            },
+            {
+                "type": "Too Many Parameters",
+                "location": "header"
+            },
+            {
+                "type": "Too Many Parameters",
+                "location": "header"
+            },
+            {
+                "type": "Too Many Parameters",
+                "location": "header"
+            },
+            {
+                "type": "Too Many Parameters",
+                "location": "body"
+            },
+            {
+                "type": "Too Many Parameters",
+                "location": "header"
+            },
+            {
+                "type": "Too Many Parameters",
+                "location": "body"
+            },
+            {
+                "type": "Too Many Parameters",
+                "location": "header"
+            },
+            {
+                "type": "Too Many Parameters",
+                "location": "header"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "2025"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "8888"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "500"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "906"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "298"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "403"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "500"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "500"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "200"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "906"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "906"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "301"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "906"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "303"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "906"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "974"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "971"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "500"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "906"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "285"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "403"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "906"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "500"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "906"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "284"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "200"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "906"
+            }
+        ],
+        "todo_fixme_count": 0,
+        "wildcard_imports": 0,
+        "dead_code_percentage": 0.0,
+        "dead_code_items": []
+    },
+    "conventions": {
+        "follows_conventions": false,
+        "convention_violations": [
+            {
+                "rule": "Class naming",
+                "detail": "EvoMaster_Test_faults should be PascalCase"
+            },
+            {
+                "rule": "Method naming",
+                "detail": "test_0_getOnPricesShowsFaults_100_101 should be camelCase"
+            },
+            {
+                "rule": "Method naming",
+                "detail": "test_1_getOnPricesShowsFaults_100_101 should be camelCase"
+            },
+            {
+                "rule": "Method naming",
+                "detail": "test_2_postOnPricesShowsFaults_100_101 should be camelCase"
+            },
+            {
+                "rule": "Method naming",
+                "detail": "test_3_postOnPricesReturnsMismatchResponseWithSchema should be camelCase"
+            },
+            {
+                "rule": "Method naming",
+                "detail": "test_4_deleteOnStationShowsFaults_100_101 should be camelCase"
+            },
+            {
+                "rule": "Method naming",
+                "detail": "test_5_deleteOnStationReturnsMismatchResponseWithSchema should be camelCase"
+            },
+            {
+                "rule": "Line length",
+                "line": 78,
+                "length": 227
+            },
+            {
+                "rule": "Line length",
+                "line": 80,
+                "length": 288
+            },
+            {
+                "rule": "Line length",
+                "line": 104,
+                "length": 227
+            },
+            {
+                "rule": "Line length",
+                "line": 106,
+                "length": 288
+            },
+            {
+                "rule": "Line length",
+                "line": 119,
+                "length": 227
+            },
+            {
+                "rule": "Line length",
+                "line": 121,
+                "length": 288
+            },
+            {
+                "rule": "Line length",
+                "line": 140,
+                "length": 227
+            },
+            {
+                "rule": "Line length",
+                "line": 142,
+                "length": 288
+            },
+            {
+                "rule": "Line length",
+                "line": 157,
+                "length": 249
+            },
+            {
+                "rule": "Line length",
+                "line": 159,
+                "length": 288
+            },
+            {
+                "rule": "Line length",
+                "line": 180,
+                "length": 135
+            },
+            {
+                "rule": "Line length",
+                "line": 193,
+                "length": 227
+            },
+            {
+                "rule": "Line length",
+                "line": 195,
+                "length": 288
+            },
+            {
+                "rule": "Line length",
+                "line": 221,
+                "length": 227
+            },
+            {
+                "rule": "Line length",
+                "line": 223,
+                "length": 288
+            },
+            {
+                "rule": "Line length",
+                "line": 247,
+                "length": 234
+            },
+            {
+                "rule": "Line length",
+                "line": 249,
+                "length": 288
+            },
+            {
+                "rule": "Line length",
+                "line": 270,
+                "length": 248
+            },
+            {
+                "rule": "Line length",
+                "line": 272,
+                "length": 288
+            }
+        ],
+        "violation_count": 26
+    },
+    "framework": {
+        "framework_keyword_violations": 0,
+        "invalid_assertions": [],
+        "non_framework_methods": [],
+        "valid_framework_assertions": true
+    },
+    "types": {
+        "type_errors": 0,
+        "undefined_variables": [],
+        "type_annotation_errors": 0,
+        "generic_type_misuses": []
+    },
+    "syntax": {
+        "syntax_errors": 0,
+        "syntax_error_details": [],
+        "linting_violations": 66,
+        "linting_details": [
+            {
+                "type": "Trailing whitespace",
+                "line": 5
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 48
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 50
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 51
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 61
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 62
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 63
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 64
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 65
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 66
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 67
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 68
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 76
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 91
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 92
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 103
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 108
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 109
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 110
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 117
+            }
+        ]
+    },
+    "design_patterns": {
+        "adheres_to_patterns": true,
+        "patterns_detected": [],
+        "pattern_violations": []
+    }
+}

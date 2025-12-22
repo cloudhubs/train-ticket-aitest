@@ -1,0 +1,265 @@
+{
+    "file_name": "EvoMaster_Test_faults.java",
+    "size": {
+        "total_lines": 137,
+        "logical_loc": 81,
+        "blank_lines": 23,
+        "comment_lines": 33,
+        "comment_ratio": 24.1
+    },
+    "complexity": {
+        "cyclomatic_complexity": {
+            "initClass": 1,
+            "test_0_putOnOrderShowsFaults_100_101": 2,
+            "test_1_putOnOrderReturnsMismatchResponseWithSchema": 2
+        },
+        "avg_cyclomatic": 1.7,
+        "max_cyclomatic": 2,
+        "cognitive_complexity": {
+            "initClass": 0,
+            "test_0_putOnOrderShowsFaults_100_101": 1,
+            "test_1_putOnOrderReturnsMismatchResponseWithSchema": 1
+        },
+        "avg_cognitive": 0.7,
+        "max_cognitive": 1,
+        "maintainability_index": 38.5
+    },
+    "test": {
+        "test_method_count": 2,
+        "nested_class_count": 0,
+        "assert_count": 4,
+        "asserts_per_test": 2.0,
+        "long_tests": [
+            "test_0_putOnOrderShowsFaults_100_101 (26 lines)",
+            "test_1_putOnOrderReturnsMismatchResponseWithSchema (23 lines)"
+        ],
+        "long_test_count": 2,
+        "aaa_organized_count": 0,
+        "aaa_percentage": 0.0,
+        "tests_with_exception_handling": 0,
+        "exception_handling_percentage": 0.0,
+        "exception_handling_needed": true
+    },
+    "duplication": {
+        "duplicate_segments": 4,
+        "duplicate_lines": 5,
+        "duplicate_percentage": 10.6,
+        "duplicated_blocks": [
+            "@Test @Timeout(60)",
+            ".header(\"Authorization\", \"Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmZHNlX21pY3Jvc2VydmljZSIsInJvbGVzIjpbIlJPTEVfVVNFUiJdLCJpZCI6IjRkMmE0NmM3LTcxY2ItNGNmMS1iNWJiLWI2ODQwNmQ5ZGE2ZiIsImlhdCI6MTc2NjAzMTAyNywiZXhwIjoxNzY2MDM0NjI3fQ.tAorGrsD88IRZ-qEe3R9PB58zSg8x58-nSzymc2JO64\") // Fixed Headers",
+            ".contentType(\"application/json\")",
+            ".put(baseUrlOfSut + \"/api/v1/orderservice/order\")"
+        ]
+    },
+    "code_smells": {
+        "code_smell_count": 15,
+        "code_smells": [
+            {
+                "type": "Too Many Parameters",
+                "location": "header"
+            },
+            {
+                "type": "Too Many Parameters",
+                "location": "body"
+            },
+            {
+                "type": "Too Many Parameters",
+                "location": "header"
+            },
+            {
+                "type": "Too Many Parameters",
+                "location": "body"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "2025"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "8888"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "500"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "2095"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "427"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "1545"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "403"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "2031"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "1996"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "614"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "803"
+            }
+        ],
+        "todo_fixme_count": 0,
+        "wildcard_imports": 0,
+        "dead_code_percentage": 0.0,
+        "dead_code_items": []
+    },
+    "conventions": {
+        "follows_conventions": false,
+        "convention_violations": [
+            {
+                "rule": "Class naming",
+                "detail": "EvoMaster_Test_faults should be PascalCase"
+            },
+            {
+                "rule": "Method naming",
+                "detail": "test_0_putOnOrderShowsFaults_100_101 should be camelCase"
+            },
+            {
+                "rule": "Method naming",
+                "detail": "test_1_putOnOrderReturnsMismatchResponseWithSchema should be camelCase"
+            },
+            {
+                "rule": "Line length",
+                "line": 78,
+                "length": 210
+            },
+            {
+                "rule": "Line length",
+                "line": 80,
+                "length": 303
+            },
+            {
+                "rule": "Line length",
+                "line": 112,
+                "length": 210
+            },
+            {
+                "rule": "Line length",
+                "line": 114,
+                "length": 303
+            }
+        ],
+        "violation_count": 7
+    },
+    "framework": {
+        "framework_keyword_violations": 0,
+        "invalid_assertions": [],
+        "non_framework_methods": [],
+        "valid_framework_assertions": true
+    },
+    "types": {
+        "type_errors": 0,
+        "undefined_variables": [],
+        "type_annotation_errors": 0,
+        "generic_type_misuses": []
+    },
+    "syntax": {
+        "syntax_errors": 0,
+        "syntax_error_details": [],
+        "linting_violations": 50,
+        "linting_details": [
+            {
+                "type": "Trailing whitespace",
+                "line": 5
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 48
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 50
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 51
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 61
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 62
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 63
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 64
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 65
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 66
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 67
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 68
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 76
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 82
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 83
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 84
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 85
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 86
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 87
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 88
+            }
+        ]
+    },
+    "design_patterns": {
+        "adheres_to_patterns": true,
+        "patterns_detected": [],
+        "pattern_violations": []
+    }
+}

@@ -1,0 +1,246 @@
+{
+    "file_name": "EvoMaster_Test_faults.java",
+    "size": {
+        "total_lines": 141,
+        "logical_loc": 75,
+        "blank_lines": 26,
+        "comment_lines": 40,
+        "comment_ratio": 28.4
+    },
+    "complexity": {
+        "cyclomatic_complexity": {
+            "initClass": 1,
+            "test_0_putOnAdminorderShowsFaults_100_101": 2,
+            "test_1_deleteOnAdminordShowsFaults_100_101": 2,
+            "test_2_deleteOnAdminordReturnsMismatchResponseWithSchema": 2
+        },
+        "avg_cyclomatic": 1.8,
+        "max_cyclomatic": 2,
+        "cognitive_complexity": {
+            "initClass": 0,
+            "test_0_putOnAdminorderShowsFaults_100_101": 1,
+            "test_1_deleteOnAdminordShowsFaults_100_101": 1,
+            "test_2_deleteOnAdminordReturnsMismatchResponseWithSchema": 1
+        },
+        "avg_cognitive": 0.8,
+        "max_cognitive": 1,
+        "maintainability_index": 39.5
+    },
+    "test": {
+        "test_method_count": 3,
+        "nested_class_count": 0,
+        "assert_count": 6,
+        "asserts_per_test": 2.0,
+        "long_tests": [
+            "test_0_putOnAdminorderShowsFaults_100_101 (21 lines)"
+        ],
+        "long_test_count": 1,
+        "aaa_organized_count": 0,
+        "aaa_percentage": 0.0,
+        "tests_with_exception_handling": 0,
+        "exception_handling_percentage": 0.0,
+        "exception_handling_needed": true
+    },
+    "duplication": {
+        "duplicate_segments": 6,
+        "duplicate_lines": 8,
+        "duplicate_percentage": 20.0,
+        "duplicated_blocks": [
+            "@Test @Timeout(60)",
+            "given().accept(\"application/json\")",
+            ".contentType(\"application/json\")",
+            ".statusCode(500)",
+            ".body(\"'status'\", numberMatches(500.0))"
+        ]
+    },
+    "code_smells": {
+        "code_smell_count": 10,
+        "code_smells": [
+            {
+                "type": "Too Many Parameters",
+                "location": "body"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "2025"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "8888"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "500"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "2092"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "977"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "9911"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "500"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "9911"
+            },
+            {
+                "type": "Magic Number",
+                "detail": "403"
+            }
+        ],
+        "todo_fixme_count": 0,
+        "wildcard_imports": 0,
+        "dead_code_percentage": 0.0,
+        "dead_code_items": []
+    },
+    "conventions": {
+        "follows_conventions": false,
+        "convention_violations": [
+            {
+                "rule": "Class naming",
+                "detail": "EvoMaster_Test_faults should be PascalCase"
+            },
+            {
+                "rule": "Method naming",
+                "detail": "test_0_putOnAdminorderShowsFaults_100_101 should be camelCase"
+            },
+            {
+                "rule": "Method naming",
+                "detail": "test_1_deleteOnAdminordShowsFaults_100_101 should be camelCase"
+            },
+            {
+                "rule": "Method naming",
+                "detail": "test_2_deleteOnAdminordReturnsMismatchResponseWithSchema should be camelCase"
+            },
+            {
+                "rule": "Line length",
+                "line": 78,
+                "length": 220
+            },
+            {
+                "rule": "Line length",
+                "line": 108,
+                "length": 244
+            },
+            {
+                "rule": "Line length",
+                "line": 130,
+                "length": 244
+            }
+        ],
+        "violation_count": 7
+    },
+    "framework": {
+        "framework_keyword_violations": 0,
+        "invalid_assertions": [],
+        "non_framework_methods": [],
+        "valid_framework_assertions": true
+    },
+    "types": {
+        "type_errors": 0,
+        "undefined_variables": [],
+        "type_annotation_errors": 0,
+        "generic_type_misuses": []
+    },
+    "syntax": {
+        "syntax_errors": 0,
+        "syntax_error_details": [],
+        "linting_violations": 39,
+        "linting_details": [
+            {
+                "type": "Trailing whitespace",
+                "line": 5
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 48
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 50
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 51
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 61
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 62
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 63
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 64
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 65
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 66
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 67
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 68
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 76
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 81
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 82
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 83
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 84
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 85
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 97
+            },
+            {
+                "type": "Trailing whitespace",
+                "line": 98
+            }
+        ]
+    },
+    "design_patterns": {
+        "adheres_to_patterns": true,
+        "patterns_detected": [],
+        "pattern_violations": []
+    }
+}
