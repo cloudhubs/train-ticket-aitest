@@ -1,0 +1,19 @@
+{
+  "service": "ts-cancel-service",
+  "role": "admin",
+  "timestamp": "20260415_152501",
+  "max_time_seconds": 60,
+  "rate_per_minute": 60,
+  "seed": "random",
+  "spec_file": "ts-cancel-service-openapi.json",
+  "gateway_url": "http://localhost:8888",
+  "authenticated": true,
+  "evomaster_version": "5.1.0",
+  "evomaster_image": "webfuzzing/evomaster:v5.1.0",
+  "results": {
+    "covered_targets": "8",
+    "endpoints_2xx": "0 endpoints out of 1",
+    "tests_generated": "1",
+    "exit_code": 0
+  }
+}
