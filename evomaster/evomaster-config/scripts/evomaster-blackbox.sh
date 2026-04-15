@@ -208,7 +208,6 @@ echo ""
 
 DOCKER_ARGS=(
     "run" "--rm"
-    "--user" "$(id -u):$(id -g)"
     "--network" "host"
     "-v" "$OUTPUT_DIR:/output"
     "-v" "$SPEC_DIR:/swagger"
@@ -236,6 +235,9 @@ fi
 
 docker "${DOCKER_ARGS[@]}" 2>&1 | tee "$LOG_FILE"
 EXIT_CODE=${PIPESTATUS[0]}
+
+# Fix ownership of files created by the root-running EvoMaster container
+docker run --rm -v "$OUTPUT_DIR:/output" alpine chown -R "$(id -u):$(id -g)" /output
 
 # =============================================================================
 # Extract summary from log and append to run-info.json

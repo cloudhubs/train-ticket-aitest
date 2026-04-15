@@ -1,0 +1,19 @@
+{
+  "service": "ts-admin-user-service",
+  "role": "none",
+  "timestamp": "20260415_150330",
+  "max_time_seconds": 60,
+  "rate_per_minute": 60,
+  "seed": "random",
+  "spec_file": "ts-admin-user-service-openapi.json",
+  "gateway_url": "http://localhost:8888",
+  "authenticated": false,
+  "evomaster_version": "4.0.0",
+  "evomaster_image": "webfuzzing/evomaster:v4.0.0",
+  "results": {
+    "covered_targets": "8",
+    "endpoints_2xx": "0 endpoints out of 1",
+    "tests_generated": "2",
+    "exit_code": 0
+  }
+}
