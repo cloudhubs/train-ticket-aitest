@@ -1,248 +1,282 @@
 #!/bin/bash
 
 # =============================================================================
-# EvoMaster Black-Box Test Generator
+# EvoMaster Black-Box Test Generator — Train Ticket
 # =============================================================================
-# Gera testes automatizados para APIs REST usando EvoMaster em modo black-box
+# Usage:
+#   ./evomaster-blackbox.sh <service> [role]
 #
-# Uso:
-#   ./evomaster-blackbox.sh <serviço> [role]
+# Examples:
+#   ./evomaster-blackbox.sh ts-cancel-service admin
+#   ./evomaster-blackbox.sh ts-contacts-service user
+#   ./evomaster-blackbox.sh ts-preserve-service none
 #
-# Exemplos:
-#   ./evomaster-blackbox.sh ts-auth-service
-#   ./evomaster-blackbox.sh ts-auth-service admin
-#   ./evomaster-blackbox.sh ts-auth-service user
-#   ./evomaster-blackbox.sh ts-auth-service none
+# Available services (must have a matching spec file in ../blackbox/swagger-specs/):
+#   ts-admin-basic-service, ts-admin-order-service, ts-admin-user-service,
+#   ts-assurance-service, ts-cancel-service, ts-contacts-service,
+#   ts-inside-payment-service, ts-order-service, ts-preserve-service
+#
+# Available roles:
+#   admin  — authenticated as ROLE_ADMIN (admin / 222222)
+#   user   — authenticated as ROLE_USER  (fdse_microservice / 111111)
+#   none   — no authentication
+#
+# Environment variables:
+#   EVOMASTER_VERSION   EvoMaster version (default: 4.0.0)
+#   EVOMASTER_IMAGE     Docker image override (default: webfuzzing/evomaster:v<VERSION>)
+#   EVOMASTER_MAX_TIME  Max time in seconds (default: 60)
+#   EVOMASTER_RATE      Requests per minute (default: 60)
+#   EVOMASTER_SEED      Seed for reproducibility (default: random)
+#   GATEWAY_URL         Base URL of the gateway (default: http://localhost:8888)
+#   AUTH_SERVICE_URL    Direct URL to the auth service (default: http://localhost:8890)
 # =============================================================================
 
 set -e
 
-# -----------------------------------------------------------------------------
-# Configurações
-# -----------------------------------------------------------------------------
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-OUTPUT_BASE_DIR="$SCRIPT_DIR/../../generated-tests/blackbox"
-SWAGGER_DIR="$SCRIPT_DIR/../blackbox/swagger-specs"
+SPEC_DIR="$SCRIPT_DIR/../blackbox/swagger-specs"
+OUTPUT_BASE_DIR="$SCRIPT_DIR/../generated-tests/blackbox"
 
-# Parâmetros do EvoMaster
-MAX_TIME="${EVOMASTER_MAX_TIME:-60}"      # 1 minutos padrão
+# EvoMaster parameters
+EVOMASTER_VERSION="${EVOMASTER_VERSION:-4.0.0}"
+EVOMASTER_IMAGE="${EVOMASTER_IMAGE:-webfuzzing/evomaster:v${EVOMASTER_VERSION}}"
+MAX_TIME="${EVOMASTER_MAX_TIME:-60}"
 RATE_PER_MINUTE="${EVOMASTER_RATE:-60}"
+SEED="${EVOMASTER_SEED:-}"
 
-# Argumentos
+# Script arguments
 SERVICE_NAME="${1:-}"
-USER_ROLE="${2:-user}"  # admin ou user
+USER_ROLE="${2:-none}"
 
-# Credenciais
-ADMIN_USERNAME="admin"
-ADMIN_PASSWORD="222222"
-USER_USERNAME="fdse_microservice"
-USER_PASSWORD="111111"
+RUN_TIMESTAMP="$(date +%Y%m%d_%H%M%S)"
 
-# URLs
-GATEWAY_URL="http://localhost:8888"
-AUTH_URL="http://localhost:8890"
-
-# Cores
+# Colors
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 RED='\033[0;31m'
 BLUE='\033[0;34m'
 NC='\033[0m'
 
-# -----------------------------------------------------------------------------
-# Funções
-# -----------------------------------------------------------------------------
+# Load authentication configuration
+source "$SCRIPT_DIR/auth-config.sh"
+
+# =============================================================================
+# Usage
+# =============================================================================
 
 show_usage() {
-    echo -e "${BLUE}Uso:${NC}"
-    echo -e "  $0 <serviço> [role]"
-    echo -e ""
-    echo -e "${BLUE}Argumentos:${NC}"
-    echo -e "  serviço    Nome do serviço (ex: ts-auth-service)"
-    echo -e "  role       Role do usuário: admin, user ou none (padrão: user)"
-    echo -e "             - admin: autenticado como administrador"
-    echo -e "             - user:  autenticado como usuário comum"
-    echo -e "             - none:  sem autenticação"
-    echo -e ""
-    echo -e "${BLUE}Exemplos:${NC}"
-    echo -e "  $0 ts-auth-service"
-    echo -e "  $0 ts-auth-service admin"
-    echo -e "  $0 ts-contacts-service user"
-    echo -e "  $0 ts-contacts-service none"
-    echo -e ""
-    echo -e "${BLUE}Variáveis de ambiente:${NC}"
-    echo -e "  EVOMASTER_MAX_TIME   Tempo máximo em segundos (padrão: 300)"
-    echo -e "  EVOMASTER_RATE       Requisições por minuto (padrão: 60)"
+    echo -e "${BLUE}Usage:${NC} $0 <service> [role]"
+    echo ""
+    echo -e "${BLUE}Available services:${NC}"
+    for f in "$SPEC_DIR"/*-openapi.json; do
+        echo "  - $(basename "$f" -openapi.json)"
+    done | sort
+    echo ""
+    echo -e "${BLUE}Roles:${NC}"
+    echo -e "  admin  — ROLE_ADMIN (admin / 222222)"
+    echo -e "  user   — ROLE_USER  (fdse_microservice / 111111)"
+    echo -e "  none   — no authentication"
+    echo ""
+    echo -e "${BLUE}Environment variables:${NC}"
+    echo -e "  EVOMASTER_VERSION   EvoMaster version (default: 4.0.0)"
+    echo -e "  EVOMASTER_MAX_TIME  Max time in seconds (default: 60)"
+    echo -e "  EVOMASTER_RATE      Requests per minute (default: 60)"
+    echo -e "  EVOMASTER_SEED      Seed for reproducibility (default: random)"
 }
 
-get_token() {
-    local username="$1"
-    local password="$2"
-    
-    # Tentar via gateway primeiro, depois direto no auth-service
-    local urls=("$GATEWAY_URL/api/v1/users/login" "$AUTH_URL/api/v1/users/login")
-    
-    for url in "${urls[@]}"; do
-        local response=$(curl -s -X POST "$url" \
-            -H "Content-Type: application/json" \
-            -d "{\"username\":\"$username\",\"password\":\"$password\"}" 2>/dev/null)
-        
-        local token=$(echo "$response" | grep -o '"token":"[^"]*"' | cut -d'"' -f4)
-        
-        if [ -n "$token" ]; then
-            echo "$token"
-            return 0
-        fi
-    done
-    
-    return 1
-}
-
-# -----------------------------------------------------------------------------
-# Validações
-# -----------------------------------------------------------------------------
+# =============================================================================
+# Validation
+# =============================================================================
 
 if [ -z "$SERVICE_NAME" ]; then
-    echo -e "${RED}Erro: Nome do serviço é obrigatório${NC}\n"
+    echo -e "${RED}Error: service name is required${NC}\n"
+    show_usage
+    exit 1
+fi
+
+SPEC_FILE="$SPEC_DIR/${SERVICE_NAME}-openapi.json"
+if [ ! -f "$SPEC_FILE" ]; then
+    echo -e "${RED}Error: no spec file found for '${SERVICE_NAME}'${NC}"
+    echo -e "${YELLOW}Expected: $SPEC_FILE${NC}\n"
     show_usage
     exit 1
 fi
 
 if [ "$USER_ROLE" != "admin" ] && [ "$USER_ROLE" != "user" ] && [ "$USER_ROLE" != "none" ]; then
-    echo -e "${YELLOW}Aviso: Role '$USER_ROLE' inválida. Usando 'user'.${NC}"
-    USER_ROLE="user"
+    echo -e "${YELLOW}Warning: unknown role '${USER_ROLE}'. Using 'none'.${NC}"
+    USER_ROLE="none"
 fi
 
-# Verificar Docker
-if ! command -v docker &> /dev/null; then
-    echo -e "${RED}Erro: Docker não está instalado${NC}"
+if ! command -v docker &>/dev/null; then
+    echo -e "${RED}Error: Docker is not installed${NC}"
     exit 1
 fi
 
-# -----------------------------------------------------------------------------
-# Preparação
-# -----------------------------------------------------------------------------
+# =============================================================================
+# Output directory: <service>/<role>/
+# =============================================================================
 
-echo -e "${BLUE}=== EvoMaster Black-Box ===${NC}\n"
-
-echo -e "${YELLOW}Serviço:${NC} $SERVICE_NAME"
-echo -e "${YELLOW}Role:${NC} $USER_ROLE"
-echo -e "${YELLOW}Tempo máximo:${NC} ${MAX_TIME}s"
-echo -e "${YELLOW}Taxa:${NC} ${RATE_PER_MINUTE} req/min"
-echo ""
-
-# Criar diretórios (estrutura: service-name/role/)
 OUTPUT_DIR="$OUTPUT_BASE_DIR/$SERVICE_NAME/$USER_ROLE"
 mkdir -p "$OUTPUT_DIR"
-mkdir -p "$SWAGGER_DIR"
 
-echo -e "${YELLOW}Diretório de saída:${NC} $OUTPUT_DIR"
+LOG_FILE="$OUTPUT_DIR/evomaster.log"
 
-# -----------------------------------------------------------------------------
-# Obter Token de Autenticação
-# -----------------------------------------------------------------------------
+echo -e "${BLUE}=== EvoMaster Black-Box — Train Ticket ===${NC}\n"
+echo -e "${YELLOW}Service:${NC}    $SERVICE_NAME"
+echo -e "${YELLOW}Role:${NC}       $USER_ROLE"
+echo -e "${YELLOW}Max time:${NC}   ${MAX_TIME}s"
+echo -e "${YELLOW}Rate:${NC}       ${RATE_PER_MINUTE} req/min"
+echo -e "${YELLOW}Timestamp:${NC}  $RUN_TIMESTAMP"
+echo -e "${YELLOW}EvoMaster:${NC}  ${EVOMASTER_IMAGE}"
+echo -e "${YELLOW}Spec:${NC}       $(basename "$SPEC_FILE")"
+echo -e "${YELLOW}Output:${NC}     $OUTPUT_DIR"
+if [ -n "$SEED" ]; then
+    echo -e "${YELLOW}Seed:${NC}       $SEED"
+fi
+echo ""
+
+# =============================================================================
+# Check gateway reachability
+# =============================================================================
+
+echo -e "${YELLOW}Checking gateway at ${GATEWAY_URL}...${NC}"
+GW_STATUS=$(curl -s -o /dev/null -w "%{http_code}" "${GATEWAY_URL}" 2>/dev/null || echo "000")
+if [ "$GW_STATUS" = "000" ]; then
+    echo -e "${RED}✗ Gateway not reachable at ${GATEWAY_URL}${NC}"
+    exit 1
+fi
+echo -e "${GREEN}✓ Gateway reachable (HTTP ${GW_STATUS})${NC}"
+
+# =============================================================================
+# Authentication
+# =============================================================================
 
 AUTH_HEADER=""
 
 if [ "$USER_ROLE" = "none" ]; then
-    echo -e "${YELLOW}Modo sem autenticação (none)${NC}"
+    echo -e "\n${YELLOW}Running without authentication${NC}"
 else
-    echo -e "${YELLOW}Obtendo token de autenticação...${NC}"
-    
+    echo -e "\n${YELLOW}Fetching JWT token for role '${USER_ROLE}'...${NC}"
+
     if [ "$USER_ROLE" = "admin" ]; then
-        TOKEN=$(get_token "$ADMIN_USERNAME" "$ADMIN_PASSWORD" || echo "")
+        TOKEN=$(get_admin_token)
     else
-        TOKEN=$(get_token "$USER_USERNAME" "$USER_PASSWORD" || echo "")
+        TOKEN=$(get_user_token)
     fi
-    
+
     if [ -n "$TOKEN" ]; then
-        echo -e "${GREEN}✓ Token obtido${NC}"
+        echo -e "${GREEN}✓ Token obtained${NC}"
         AUTH_HEADER="Authorization:Bearer $TOKEN"
     else
-        echo -e "${YELLOW}⚠ Não foi possível obter token.${NC}"
-        echo -e "${YELLOW}  Dica: Limpe o volume MySQL para recriar usuários:${NC}"
-        echo -e "${YELLOW}    docker compose down && docker volume rm train-ticket-aitest_mysql_data && docker compose up -d${NC}"
-        echo -e "${YELLOW}  Continuando sem autenticação...${NC}"
-    fi
-fi
-
-# -----------------------------------------------------------------------------
-# Determinar URL do Swagger
-# -----------------------------------------------------------------------------
-
-echo -e "\n${YELLOW}Verificando especificação Swagger...${NC}"
-
-SWAGGER_URL=""
-
-# 1. Verificar arquivo local
-SPEC_FILE="$SWAGGER_DIR/${SERVICE_NAME}-openapi.json"
-if [ -f "$SPEC_FILE" ]; then
-    SWAGGER_URL="file:///swagger/${SERVICE_NAME}-openapi.json"
-    echo -e "${GREEN}✓ Usando arquivo local: $(basename "$SPEC_FILE")${NC}"
-else
-    # 2. Tentar gateway
-    GATEWAY_SWAGGER="$GATEWAY_URL/v2/api-docs"
-    if curl -s -f "$GATEWAY_SWAGGER" &> /dev/null; then
-        SWAGGER_URL="$GATEWAY_SWAGGER"
-        echo -e "${GREEN}✓ Usando Swagger do gateway${NC}"
-    else
-        echo -e "${RED}✗ Nenhuma especificação Swagger encontrada${NC}"
-        echo -e "${YELLOW}Verifique se o serviço está rodando ou se há um arquivo em:${NC}"
-        echo -e "  $SWAGGER_DIR/${SERVICE_NAME}-openapi.json"
+        echo -e "${RED}✗ Failed to obtain token. Check that the auth service is running.${NC}"
         exit 1
     fi
 fi
 
-# -----------------------------------------------------------------------------
-# Executar EvoMaster
-# -----------------------------------------------------------------------------
+# =============================================================================
+# Save run metadata
+# =============================================================================
 
-echo -e "\n${GREEN}Executando EvoMaster...${NC}"
-echo -e "${YELLOW}Swagger URL:${NC} $SWAGGER_URL"
+SEED_VALUE="${SEED:-random}"
+cat > "$OUTPUT_DIR/run-info.json" <<EOF
+{
+  "service": "$SERVICE_NAME",
+  "role": "$USER_ROLE",
+  "timestamp": "$RUN_TIMESTAMP",
+  "max_time_seconds": $MAX_TIME,
+  "rate_per_minute": $RATE_PER_MINUTE,
+  "seed": "$SEED_VALUE",
+  "spec_file": "$(basename "$SPEC_FILE")",
+  "gateway_url": "$GATEWAY_URL",
+  "authenticated": $([ "$USER_ROLE" != "none" ] && echo "true" || echo "false"),
+  "evomaster_version": "$EVOMASTER_VERSION",
+  "evomaster_image": "$EVOMASTER_IMAGE"
+}
+EOF
+
+echo -e "${GREEN}✓ Metadata saved to run-info.json${NC}"
+
+# =============================================================================
+# Run EvoMaster via Docker
+# =============================================================================
+
+TEST_SUITE_NAME="EvoMaster_${SERVICE_NAME}_${USER_ROLE}"
+
+echo -e "\n${GREEN}Running EvoMaster...${NC}"
+echo -e "${YELLOW}Log:${NC} $LOG_FILE"
 echo ""
 
-# Montar comando Docker
 DOCKER_ARGS=(
     "run" "--rm"
-    "-v" "$OUTPUT_DIR:/output"
-    "-v" "$SWAGGER_DIR:/swagger"
     "--network" "host"
-    "webfuzzing/evomaster"
+    "-v" "$OUTPUT_DIR:/output"
+    "-v" "$SPEC_DIR:/swagger"
+    "$EVOMASTER_IMAGE"
     "--blackBox" "true"
-    "--bbSwaggerUrl" "$SWAGGER_URL"
+    "--bbSwaggerUrl" "file:///swagger/${SERVICE_NAME}-openapi.json"
     "--maxTime" "${MAX_TIME}s"
     "--ratePerMinute" "$RATE_PER_MINUTE"
     "--outputFormat" "JAVA_JUNIT_5"
     "--outputFolder" "/output"
-    "--testSuiteFileName" "EvoMaster_Test"
+    "--testSuiteFileName" "$TEST_SUITE_NAME"
+    "--writeStatistics" "true"
+    "--statisticsFile" "/output/statistics.csv"
+    "--snapshotInterval" "1"
 )
 
-# Adicionar header de autenticação se disponível (EvoMaster 4.0 usa --header0)
-if [ -n "$AUTH_HEADER" ]; then
-    DOCKER_ARGS+=("--header0" "$AUTH_HEADER")
-    echo -e "${BLUE}Header de autenticação configurado${NC}"
+if [ -n "$SEED" ]; then
+    DOCKER_ARGS+=("--seed" "$SEED")
 fi
 
-# Executar
-docker "${DOCKER_ARGS[@]}"
+if [ -n "$AUTH_HEADER" ]; then
+    DOCKER_ARGS+=("--header0" "$AUTH_HEADER")
+    echo -e "${BLUE}Authentication header configured${NC}"
+fi
 
-EXIT_CODE=$?
+docker "${DOCKER_ARGS[@]}" 2>&1 | tee "$LOG_FILE"
+EXIT_CODE=${PIPESTATUS[0]}
 
-# -----------------------------------------------------------------------------
-# Resultado
-# -----------------------------------------------------------------------------
+# =============================================================================
+# Extract summary from log and append to run-info.json
+# =============================================================================
+
+if [ -f "$LOG_FILE" ]; then
+    COVERED=$(grep -oP "Covered targets: \K[0-9]+" "$LOG_FILE" | tail -1 || echo "unknown")
+    ENDPOINTS_2XX=$(grep -oP "Successfully executed \(HTTP code 2xx\) \K[0-9]+ endpoints out of [0-9]+" "$LOG_FILE" | tail -1 || echo "unknown")
+    TESTS_GENERATED=$(grep -oP "Going to save \K[0-9]+" "$LOG_FILE" | tail -1 || echo "unknown")
+
+    TMP=$(mktemp)
+    while IFS= read -r line || [ -n "$line" ]; do
+        if [[ "$line" == *"\"evomaster_image\""* ]]; then
+            printf '%s,\n' "$line"
+            printf '%s\n' '  "results": {'
+            printf '%s\n' "    \"covered_targets\": \"$COVERED\","
+            printf '%s\n' "    \"endpoints_2xx\": \"$ENDPOINTS_2XX\","
+            printf '%s\n' "    \"tests_generated\": \"$TESTS_GENERATED\","
+            printf '%s\n' "    \"exit_code\": $EXIT_CODE"
+            printf '%s\n' '  }'
+        else
+            printf '%s\n' "$line"
+        fi
+    done < "$OUTPUT_DIR/run-info.json" > "$TMP"
+    mv "$TMP" "$OUTPUT_DIR/run-info.json"
+fi
+
+# =============================================================================
+# Final result
+# =============================================================================
 
 echo ""
 if [ $EXIT_CODE -eq 0 ]; then
-    echo -e "${GREEN}✓ Testes gerados com sucesso!${NC}"
-    echo -e "${YELLOW}Localização:${NC} $OUTPUT_DIR"
+    echo -e "${GREEN}✓ Tests generated successfully!${NC}"
+    echo -e "${YELLOW}Location:${NC} $OUTPUT_DIR"
     echo ""
-    echo -e "${BLUE}Arquivos gerados:${NC}"
-    find "$OUTPUT_DIR" -name "*.java" -newer "$OUTPUT_DIR" -mmin -5 2>/dev/null | while read -r f; do
-        echo -e "  - $(basename "$f")"
+    echo -e "${BLUE}Generated files:${NC}"
+    ls "$OUTPUT_DIR" | while read -r f; do
+        echo "  - $f"
     done
 else
-    echo -e "${RED}✗ Erro ao executar EvoMaster (código: $EXIT_CODE)${NC}"
+    echo -e "${RED}✗ EvoMaster failed (exit code: $EXIT_CODE)${NC}"
+    echo -e "${YELLOW}Full log at:${NC} $LOG_FILE"
     exit $EXIT_CODE
 fi
-
