@@ -937,6 +937,29 @@ def build_maven_command(maven_executable: str, arguments: list[str]) -> list[str
         return ["cmd.exe", "/c", maven_executable, *arguments]
     return [maven_executable, *arguments]
 
+def resolve_allowed_services(root_dir: Path, targets: set[tuple[str, str]]) -> Optional[set[str]]:
+    """
+    YAS stores generated tests under root/<service>/<profile>/..., so the first
+    path segment of the endpoint is a good pre-filter for services.
+
+    Other projects, such as Train Ticket, can expose endpoints like /api/v1/...
+    while the generated-test directories use unrelated service names
+    (eg. ts-admin-basic-service). In those layouts, pre-filtering by the first
+    endpoint segment would incorrectly eliminate every class before we even match
+    methods.
+
+    To keep the YAS optimization without breaking other layouts, only apply the
+    service pre-filter when the inferred names actually exist as directories
+    under the chosen root_dir.
+    """
+    inferred_services = services_from_targets(targets)
+    if not inferred_services:
+        return None
+
+    existing_services = {
+        service for service in inferred_services if (root_dir / service).exists()
+    }
+    return existing_services or None
 
 def build_runner_pom(java_release: str, dependency_version: str) -> str:
     return textwrap.dedent(
