@@ -1797,7 +1797,7 @@ def main() -> int:
 
     if targets_file:
         targets = load_targets_file(targets_file)
-        allowed_services = services_from_targets(targets)
+        allowed_services = resolve_allowed_services(root_dir, targets)
 
     classes = collect_classes(root_dir, allowed_services=allowed_services)
     if targets_file:
