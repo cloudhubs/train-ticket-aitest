@@ -8,17 +8,6 @@ TARGET_DIR_DEFAULT="$ROOT_DIR/generated-tests/blackbox"
 
 source "$SCRIPT_DIR/auth-config.sh"
 
-RESOLVE_IP="${EVOMASTER_HOST_RESOLVE:-}"
-if [ "${EVOMASTER_NO_AUTO_HOST_RESOLVE:-}" != "1" ]; then
-    if [ -z "$RESOLVE_IP" ] && ! getent hosts identity >/dev/null 2>&1; then
-        RESOLVE_IP="127.0.0.1"
-    fi
-fi
-if [ -n "$RESOLVE_IP" ]; then
-    CURL_HOST_RESOLVE=(--resolve "api.yas.local:80:${RESOLVE_IP}" --resolve "identity:80:${RESOLVE_IP}")
-    echo "Using curl --resolve for api.yas.local/identity -> ${RESOLVE_IP}"
-fi
-
 TARGET_DIR="$TARGET_DIR_DEFAULT"
 ROLE_FILTER=""
 DRY_RUN=0
@@ -31,7 +20,8 @@ Refresh expired Authorization bearer tokens in generated EvoMaster Java tests.
 Only the token value inside '.header("Authorization", "Bearer ...")' is changed.
 
 Options:
-  --role ROLE   Update only one role directory: admin, admin_only, customer, none
+  --role ROLE   Update only one role directory: admin, user or none
+                Legacy aliases: admin_only -> admin, customer -> user
   --dir PATH    Override the base directory to scan
   --dry-run     Show what would change without editing files
   --help        Show this help
@@ -69,6 +59,26 @@ if [ ! -d "$TARGET_DIR" ]; then
     exit 1
 fi
 
+normalize_role() {
+    local role="$1"
+
+    case "$role" in
+        admin|admin_only)
+            echo "admin"
+            ;;
+        user|customer)
+            echo "user"
+            ;;
+        none)
+            echo "none"
+            ;;
+        *)
+            echo "Unsupported role for token refresh: $role" >&2
+            return 1
+            ;;
+    esac
+}
+
 get_role_token() {
     local role="$1"
 
@@ -76,13 +86,8 @@ get_role_token() {
         admin)
             get_admin_token
             ;;
-        admin_only)
-            ensure_admin_only_user_exists >&2
-            get_admin_only_token
-            ;;
-        customer)
-            ensure_customer_user_exists >&2
-            get_customer_token
+        user)
+            get_user_token
             ;;
         none)
             echo ""
@@ -116,10 +121,16 @@ update_file_tokens() {
 
 roles=()
 if [ -n "$ROLE_FILTER" ]; then
-    roles+=("$ROLE_FILTER")
+    normalized_role="$(normalize_role "$ROLE_FILTER")" || exit 1
+    roles+=("$normalized_role")
 else
+    declare -A seen_roles=()
     while IFS= read -r role; do
-        roles+=("$role")
+        normalized_role="$(normalize_role "$role")" || continue
+        if [ -z "${seen_roles[$normalized_role]:-}" ]; then
+            roles+=("$normalized_role")
+            seen_roles[$normalized_role]=1
+        fi
     done < <(find "$TARGET_DIR" -mindepth 2 -maxdepth 2 -type d -printf '%f\n' | sort -u)
 fi
 
@@ -128,7 +139,7 @@ total_lines=0
 
 for role in "${roles[@]}"; do
     case "$role" in
-        admin|admin_only|customer|none)
+        admin|user|none)
             ;;
         *)
             echo "Skipping unsupported role directory '$role'"
