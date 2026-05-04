@@ -3,8 +3,14 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
-TARGET_DIR_DEFAULT="$ROOT_DIR/generated-tests/blackbox"
+ROOT_DIR_CONFIG="$(cd "$SCRIPT_DIR/.." && pwd)"
+ROOT_DIR_EVOMASTER="$(cd "$SCRIPT_DIR/../.." && pwd)"
+
+if [ -d "$ROOT_DIR_CONFIG/generated-tests/blackbox" ]; then
+    TARGET_DIR_DEFAULT="$ROOT_DIR_CONFIG/generated-tests/blackbox"
+else
+    TARGET_DIR_DEFAULT="$ROOT_DIR_EVOMASTER/generated-tests/blackbox"
+fi
 
 source "$SCRIPT_DIR/auth-config.sh"
 
