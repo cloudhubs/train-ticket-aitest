@@ -19,7 +19,7 @@ from pathlib import Path
 from typing import Optional
 
 
-CLASS_PATTERN = re.compile(r"(?m)^\s*public\s+class\s+([A-Za-z0-9_]+)")
+CLASS_PATTERN = re.compile(r"(?m)^\s*public\s+class\s+([^\s{]+)")
 IMPORT_PATTERN = re.compile(r"(?m)^\s*import\s+(?:static\s+)?([^;]+);")
 METHOD_PATTERN = re.compile(
     r"(?ms)(?P<comment>/\*\*.*?\*/)?\s*"
@@ -285,9 +285,20 @@ def get_file_type(file_name: str) -> str:
     return "unknown"
 
 
+def sanitize_java_identifier(value: str, default: str = "_") -> str:
+    sanitized = re.sub(r"[^A-Za-z0-9_]", "_", value.strip())
+    if not sanitized:
+        return default
+    if sanitized[0].isdigit():
+        sanitized = f"_{sanitized}"
+    return sanitized
+
+
 def get_class_name(content: str) -> str:
     match = CLASS_PATTERN.search(content)
-    return match.group(1) if match else ""
+    if not match:
+        return ""
+    return sanitize_java_identifier(match.group(1), default="")
 
 
 def get_import_line_numbers(lines: list[str]) -> set[int]:
@@ -1090,7 +1101,14 @@ def create_project_layout(work_dir: Path, class_info: ClassInfo, java_release: s
 
     test_source_dir = work_dir / "src" / "test" / "java"
     test_source_dir.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(class_info.file_path, test_source_dir / class_info.file_name)
+    original_content = class_info.file_path.read_text(encoding="utf-8", errors="replace")
+    rewritten_content = CLASS_PATTERN.sub(
+        lambda match: match.group(0).replace(match.group(1), class_info.class_name or match.group(1)),
+        original_content,
+        count=1,
+    )
+    staged_file_name = f"{class_info.class_name}.java" if class_info.class_name else class_info.file_name
+    (test_source_dir / staged_file_name).write_text(rewritten_content, encoding="utf-8")
     (work_dir / "pom.xml").write_text(
         build_runner_pom(java_release, dependency_version),
         encoding="utf-8",
