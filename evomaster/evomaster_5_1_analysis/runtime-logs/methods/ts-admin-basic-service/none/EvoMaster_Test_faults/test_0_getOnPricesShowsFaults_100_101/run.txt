@@ -1,0 +1,198 @@
+Request method:	GET
+Request URI:	http://localhost:8888/api/v1/adminbasicservice/adminbasic/prices
+Proxy:			<none>
+Request params:	<none>
+Query params:	<none>
+Form params:	<none>
+Path params:	<none>
+Headers:		Accept=application/json
+Cookies:		<none>
+Multiparts:		<none>
+Body:			<none>
+
+HTTP/1.1 200 OK
+transfer-encoding: chunked
+Vary: Origin
+Vary: Access-Control-Request-Method
+Vary: Access-Control-Request-Headers
+X-Content-Type-Options: nosniff
+X-XSS-Protection: 0
+X-Frame-Options: DENY
+Content-Type: application/json
+Date: Mon, 04 May 2026 06:24:29 GMT
+
+{
+    "status": 1,
+    "msg": "Success",
+    "data": [
+        {
+            "id": "0eb474c9-f8be-4119-8681-eb538a404a6a",
+            "trainType": "KuaiSu",
+            "routeId": "1367db1f-461e-4ab7-87ad-2bcc05fd9cb7",
+            "basicPriceRate": 0.2,
+            "firstClassPriceRate": 1.0
+        },
+        {
+            "id": "37fd9a75-f1f5-4f23-8d10-0d29d208ffec",
+            "trainType": null,
+            "routeId": "sKhds0dZ5",
+            "basicPriceRate": 0.9898820078686315,
+            "firstClassPriceRate": 0.8522259903113127
+        },
+        {
+            "id": "3OTjM_q8IvXFZ8",
+            "trainType": null,
+            "routeId": "i",
+            "basicPriceRate": 0.0,
+            "firstClassPriceRate": 0.0
+        },
+        {
+            "id": "6d20b8cb-039c-474c-ae25-b6177ea41152",
+            "trainType": "GaoTieOne",
+            "routeId": "92708982-77af-4318-be25-57ccb0ff69ad",
+            "basicPriceRate": 0.38,
+            "firstClassPriceRate": 1.0
+        },
+        {
+            "id": "719287d6-d3e7-4b54-9a92-71d039748b22",
+            "trainType": "GaoTieOne",
+            "routeId": "a3f256c1-0e43-4f7d-9c21-121bf258101f",
+            "basicPriceRate": 0.7,
+            "firstClassPriceRate": 1.0
+        },
+        {
+            "id": "7de18cf8-bb17-4bb2-aeb4-85d8176d3a93",
+            "trainType": "GaoTieTwo",
+            "routeId": "084837bb-53c8-4438-87c8-0321a4d09917",
+            "basicPriceRate": 0.6,
+            "firstClassPriceRate": 1.0
+        },
+        {
+            "id": "8b059dc5-01a2-4f8f-8f94-6c886b38bb34",
+            "trainType": "ZhiDa",
+            "routeId": "d693a2c5-ef87-4a3c-bef8-600b43f62c68",
+            "basicPriceRate": 0.32,
+            "firstClassPriceRate": 1.0
+        },
+        {
+            "id": "8c1b09c2-5c26-4dbb-9b06-08c0a0a6f132",
+            "trainType": null,
+            "routeId": "nmlfi_tPzcOf",
+            "basicPriceRate": 0.036533802614197475,
+            "firstClassPriceRate": 0.0
+        },
+        {
+            "id": "8fb01829-393f-4af4-9e96-f72866f94d14",
+            "trainType": "ZhiDa",
+            "routeId": "9fc9c261-3263-4bfa-82f8-bb44e06b2f52",
+            "basicPriceRate": 0.35,
+            "firstClassPriceRate": 1.0
+        },
+        {
+            "id": "b90a6ad7-ffad-4624-9655-48e9e185fa6c",
+            "trainType": "ZhiDa",
+            "routeId": "0b23bd3e-876a-4af3-b920-c50a90c90b04",
+            "basicPriceRate": 0.35,
+            "firstClassPriceRate": 1.0
+        },
+        {
+            "id": "be4cdc54-810b-4beb-a976-ac63f5829dea",
+            "trainType": null,
+            "routeId": "nmlfi_tPzcOf",
+            "basicPriceRate": 0.036533802614197475,
+            "firstClassPriceRate": 0.0
+        },
+        {
+            "id": "c5679b7e-4a54-4f52-9939-1ae86ba16fa7",
+            "trainType": "GaoTieOne",
+            "routeId": "aefcef3f-3f42-46e8-afd7-6cb2a928bd3d",
+            "basicPriceRate": 0.5,
+            "firstClassPriceRate": 1.0
+        },
+        {
+            "id": "d5c4523a-827c-468c-95be-e9024a40572e",
+            "trainType": "DongCheOne",
+            "routeId": "f3d4d4ef-693b-4456-8eed-59c0d717dd08",
+            "basicPriceRate": 0.45,
+            "firstClassPriceRate": 1.0
+        },
+        {
+            "id": "dd0e572e-7443-420c-8280-7d8215636069",
+            "trainType": "TeKuai",
+            "routeId": "20eb7122-3a11-423f-b10a-be0dc5bce7db",
+            "basicPriceRate": 0.3,
+            "firstClassPriceRate": 1.0
+        },
+        {
+            "id": "e81676e5-42d3-40a3-ab49-a1f76f6bdf90",
+            "trainType": null,
+            "routeId": "sKhds0dZ5",
+            "basicPriceRate": 0.9898820078686315,
+            "firstClassPriceRate": 0.8522259903113127
+        },
+        {
+            "id": "SFGvVcQ4MMHHa",
+            "trainType": null,
+            "routeId": null,
+            "basicPriceRate": 0.48849308205745423,
+            "firstClassPriceRate": 0.0
+        }
+    ]
+}
+[[1;31mERROR[m] [1;31mTests [0;1mrun: [0;1m1[m, [1;31mFailures: [0;1;31m1[m, Errors: 0, Skipped: 0, Time elapsed: 5.880 s[1;31m <<< FAILURE![m -- in [1mEvoMaster_Test_faults[m
+[[1;31mERROR[m] EvoMaster_Test_faults.test_0_getOnPricesShowsFaults_100_101 -- Time elapsed: 4.193 s <<< FAILURE!
+java.lang.AssertionError: 
+1 expectation failed.
+Expected status code <500> but was <200>.
+
+	at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:502)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:486)
+	at org.codehaus.groovy.reflection.CachedConstructor.invoke(CachedConstructor.java:73)
+	at org.codehaus.groovy.runtime.callsite.ConstructorSite$ConstructorSiteNoUnwrapNoCoerce.callConstructor(ConstructorSite.java:108)
+	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallConstructor(CallSiteArray.java:57)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callConstructor(AbstractCallSite.java:263)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callConstructor(AbstractCallSite.java:277)
+	at io.restassured.internal.ResponseSpecificationImpl$HamcrestAssertionClosure.validate(ResponseSpecificationImpl.groovy:512)
+	at io.restassured.internal.ResponseSpecificationImpl$HamcrestAssertionClosure$validate$1.call(Unknown Source)
+	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(CallSiteArray.java:45)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:125)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:139)
+	at io.restassured.internal.ResponseSpecificationImpl.validateResponseIfRequired(ResponseSpecificationImpl.groovy:696)
+	at io.restassured.internal.ResponseSpecificationImpl.this$2$validateResponseIfRequired(ResponseSpecificationImpl.groovy)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.codehaus.groovy.runtime.callsite.PlainObjectMetaMethodSite.doInvoke(PlainObjectMetaMethodSite.java:43)
+	at org.codehaus.groovy.runtime.callsite.PogoMetaMethodSite$PogoCachedMethodSiteNoUnwrapNoCoerce.invoke(PogoMetaMethodSite.java:198)
+	at org.codehaus.groovy.runtime.callsite.PogoMetaMethodSite.callCurrent(PogoMetaMethodSite.java:62)
+	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallCurrent(CallSiteArray.java:49)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:171)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:185)
+	at io.restassured.internal.ResponseSpecificationImpl.statusCode(ResponseSpecificationImpl.groovy:135)
+	at io.restassured.specification.ResponseSpecification$statusCode$1.callCurrent(Unknown Source)
+	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallCurrent(CallSiteArray.java:49)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:171)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:185)
+	at io.restassured.internal.ResponseSpecificationImpl.statusCode(ResponseSpecificationImpl.groovy:143)
+	at io.restassured.internal.ValidatableResponseOptionsImpl.statusCode(ValidatableResponseOptionsImpl.java:89)
+	at EvoMaster_Test_faults.test_0_getOnPricesShowsFaults_100_101(EvoMaster_Test_faults.java:82)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+[[1;31mERROR[m] [1;31mFailures: [m
+[[1;31mERROR[m] [1;31m  EvoMaster_Test_faults.test_0_getOnPricesShowsFaults_100_101:82 1 expectation failed.
+Expected status code <500> but was <200>.
+[m
+[[1;31mERROR[m] [1;31mTests run: 1, Failures: 1, Errors: 0, Skipped: 0[m
+[[1;31mERROR[m] Failed to execute goal [32morg.apache.maven.plugins:maven-surefire-plugin:3.5.2:test[m [1m(default-cli)[m on project [36mgenerated-test-runner[m: [1;31mThere are test failures.[m
+[[1;31mERROR[m] [1;31m[m
+[[1;31mERROR[m] [1;31mSee /mnt/train-ticket-aitest/evomaster/evomaster-config/tmp-test-runner/ts-admin-basic-service/none/ee5e7d9a63d9/target/surefire-reports for the individual test results.[m
+[[1;31mERROR[m] [1;31mSee dump files (if any exist) [date].dump, [date]-jvmRun[N].dump and [date].dumpstream.[m
+[[1;31mERROR[m] -> [1m[Help 1][m
+[[1;31mERROR[m] 
+[[1;31mERROR[m] To see the full stack trace of the errors, re-run Maven with the [1m-e[m switch.
+[[1;31mERROR[m] Re-run Maven using the [1m-X[m switch to enable full debug logging.
+[[1;31mERROR[m] 
+[[1;31mERROR[m] For more information about the errors and possible solutions, please read the following articles:
+[[1;31mERROR[m] [1m[Help 1][m http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
