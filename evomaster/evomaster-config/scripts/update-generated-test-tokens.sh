@@ -87,13 +87,14 @@ normalize_role() {
 
 get_role_token() {
     local role="$1"
+    local auth_url="${AUTH_LOGIN_ENDPOINT:-}"
 
     case "$role" in
         admin)
-            get_admin_token
+            get_admin_token "$auth_url"
             ;;
         user)
-            get_user_token
+            get_user_token "$auth_url"
             ;;
         none)
             echo ""
