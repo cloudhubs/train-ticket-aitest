@@ -219,11 +219,11 @@ class RunMetrics:
 
 
 @dataclass
-class SurefireSummary:
-    tests: int
-    failures: int
-    errors: int
-    skipped: int
+class SurefireMethodResult:
+    run_detected: bool
+    runtime_error_count: Optional[int]
+    error_types: set[str]
+    error_summary: str
 
 
 @dataclass
@@ -265,7 +265,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--timeout-sec", type=int, default=300)
     parser.add_argument("--maven-command", default="mvn")
     parser.add_argument("--java-release", default="21")
-    parser.add_argument("--evomaster-dependency-version", default="5.0.2")
+    parser.add_argument("--evomaster-dependency-version", default="5.1.0")
     parser.add_argument("--targets-file")
     return parser.parse_args()
 
@@ -937,6 +937,29 @@ def build_maven_command(maven_executable: str, arguments: list[str]) -> list[str
         return ["cmd.exe", "/c", maven_executable, *arguments]
     return [maven_executable, *arguments]
 
+def resolve_allowed_services(root_dir: Path, targets: set[tuple[str, str]]) -> Optional[set[str]]:
+    """
+    YAS stores generated tests under root/<service>/<profile>/..., so the first
+    path segment of the endpoint is a good pre-filter for services.
+
+    Other projects, such as Train Ticket, can expose endpoints like /api/v1/...
+    while the generated-test directories use unrelated service names
+    (eg. ts-admin-basic-service). In those layouts, pre-filtering by the first
+    endpoint segment would incorrectly eliminate every class before we even match
+    methods.
+
+    To keep the YAS optimization without breaking other layouts, only apply the
+    service pre-filter when the inferred names actually exist as directories
+    under the chosen root_dir.
+    """
+    inferred_services = services_from_targets(targets)
+    if not inferred_services:
+        return None
+
+    existing_services = {
+        service for service in inferred_services if (root_dir / service).exists()
+    }
+    return existing_services or None
 
 def build_runner_pom(java_release: str, dependency_version: str) -> str:
     return textwrap.dedent(
@@ -1311,36 +1334,91 @@ def first_matching_line(combined_log: str, patterns: tuple[str, ...]) -> str:
     return ""
 
 
-def parse_surefire_reports(report_dir: Path) -> Optional[SurefireSummary]:
-    if not report_dir.exists():
-        return None
+def iter_surefire_report_dirs(work_dir: Path, preferred_dir: Path) -> list[Path]:
+    candidates = [preferred_dir, work_dir / "target" / "surefire-reports"]
+    seen: set[Path] = set()
+    resolved: list[Path] = []
 
-    tests = 0
-    failures = 0
-    errors = 0
-    skipped = 0
-    found = False
-
-    for xml_file in sorted(report_dir.glob("TEST-*.xml")):
+    for candidate in candidates:
         try:
-            root = ET.fromstring(xml_file.read_text(encoding="utf-8", errors="replace"))
-        except (OSError, ET.ParseError):
+            normalized = candidate.resolve()
+        except OSError:
+            normalized = candidate
+        if normalized in seen or not candidate.exists() or not candidate.is_dir():
             continue
+        seen.add(normalized)
+        resolved.append(candidate)
 
-        found = True
-        tests += int(root.attrib.get("tests", "0") or 0)
-        failures += int(root.attrib.get("failures", "0") or 0)
-        errors += int(root.attrib.get("errors", "0") or 0)
-        skipped += int(root.attrib.get("skipped", "0") or 0)
+    return resolved
 
-    if not found:
-        return None
 
-    return SurefireSummary(
-        tests=tests,
-        failures=failures,
-        errors=errors,
-        skipped=skipped,
+def testcase_matches_class(testcase_classname: str, class_name: str) -> bool:
+    return testcase_classname == class_name or testcase_classname.endswith(f".{class_name}")
+
+
+def summarize_surefire_reports(
+    report_dirs: list[Path],
+    class_name: str,
+    method_name: str,
+) -> SurefireMethodResult:
+    for report_dir in report_dirs:
+        for xml_path in sorted(report_dir.glob("TEST-*.xml")):
+            try:
+                root = ET.parse(xml_path).getroot()
+            except ET.ParseError:
+                continue
+
+            matched_testcase: Optional[ET.Element] = None
+            for testcase in root.findall(".//testcase"):
+                testcase_name = testcase.attrib.get("name", "")
+                testcase_classname = testcase.attrib.get("classname", "")
+                if testcase_name != method_name:
+                    continue
+                if class_name and not testcase_matches_class(testcase_classname, class_name):
+                    continue
+                matched_testcase = testcase
+                break
+
+            if matched_testcase is None:
+                continue
+
+            error_types: set[str] = set()
+            runtime_error_count = 0
+            error_summary = ""
+
+            for failure in matched_testcase.findall("failure"):
+                runtime_error_count += 1
+                error_types.add("test_failure")
+                failure_type = failure.attrib.get("type", "").strip()
+                if failure_type:
+                    error_types.add(failure_type)
+                if not error_summary:
+                    error_summary = failure.attrib.get("message", "").strip()
+
+            for error in matched_testcase.findall("error"):
+                runtime_error_count += 1
+                error_types.add("test_error")
+                error_type = error.attrib.get("type", "").strip()
+                if error_type:
+                    error_types.add(error_type)
+                if not error_summary:
+                    error_summary = error.attrib.get("message", "").strip()
+
+            if matched_testcase.find("skipped") is not None and runtime_error_count == 0:
+                error_summary = error_summary or "Test was skipped"
+
+            return SurefireMethodResult(
+                run_detected=True,
+                runtime_error_count=runtime_error_count,
+                error_types=error_types,
+                error_summary=error_summary,
+            )
+
+    return SurefireMethodResult(
+        run_detected=False,
+        runtime_error_count=None,
+        error_types=set(),
+        error_summary="",
     )
 
 
@@ -1442,12 +1520,21 @@ def summarize_compile(class_info: ClassInfo, process: ProcessMetrics, class_log_
     )
 
 
-def summarize_run(process: ProcessMetrics, method_log_dir: Path, surefire_dir: Path, work_dir: Path) -> RunMetrics:
+def summarize_run(
+    process: ProcessMetrics,
+    method_log_dir: Path,
+    surefire_dir: Path,
+    work_dir: Path,
+    class_name: str,
+    method_name: str,
+) -> RunMetrics:
     summary_matches = list(TEST_SUMMARY_PATTERN.finditer(process.combined_log))
-    fallback_surefire_dir = work_dir / "target" / "surefire-reports"
-    report_dir = surefire_dir if surefire_dir.exists() else fallback_surefire_dir
-    surefire_summary = parse_surefire_reports(report_dir)
-    run_detected = bool(summary_matches) or surefire_summary is not None
+    surefire_result = summarize_surefire_reports(
+        iter_surefire_report_dirs(work_dir, surefire_dir),
+        class_name,
+        method_name,
+    )
+    run_detected = bool(summary_matches) or surefire_dir.exists() or surefire_result.run_detected
     runtime_error_count: Optional[int] = None
     error_types: set[str] = set()
     error_summary = ""
@@ -1463,17 +1550,10 @@ def summarize_run(process: ProcessMetrics, method_log_dir: Path, surefire_dir: P
             error_types.add("test_error")
         if runtime_error_count:
             error_summary = summary.group(0)
-    elif surefire_summary is not None:
-        runtime_error_count = surefire_summary.failures + surefire_summary.errors
-        if surefire_summary.failures:
-            error_types.add("test_failure")
-        if surefire_summary.errors:
-            error_types.add("test_error")
-        if runtime_error_count:
-            error_summary = (
-                f"Tests run: {surefire_summary.tests}, Failures: {surefire_summary.failures}, "
-                f"Errors: {surefire_summary.errors}, Skipped: {surefire_summary.skipped}"
-            )
+    elif surefire_result.run_detected:
+        runtime_error_count = surefire_result.runtime_error_count
+        error_types.update(surefire_result.error_types)
+        error_summary = surefire_result.error_summary
 
     exception_types = {
         item
@@ -1497,6 +1577,11 @@ def summarize_run(process: ProcessMetrics, method_log_dir: Path, surefire_dir: P
             process.combined_log,
             ("tests run:", "exception", "[error]", "timeout"),
         )
+    if not error_summary and surefire_result.run_detected:
+        if runtime_error_count in (None, 0):
+            error_summary = "Test passed (detected via Surefire XML)"
+        else:
+            error_summary = surefire_result.error_summary
 
     runs = (
         process.exit_code == 0
@@ -1586,7 +1671,14 @@ def run_method(
         stderr_path=method_log_dir / "run_stderr.log",
         combined_path=method_log_dir / "run.log",
     )
-    return summarize_run(process, method_log_dir, surefire_dir, work_dir)
+    return summarize_run(
+        process,
+        method_log_dir,
+        surefire_dir,
+        work_dir,
+        class_info.class_name,
+        method.method_name,
+    )
 
 
 def stringify_path(value: Optional[Path]) -> str:
@@ -1705,7 +1797,7 @@ def main() -> int:
 
     if targets_file:
         targets = load_targets_file(targets_file)
-        allowed_services = services_from_targets(targets)
+        allowed_services = resolve_allowed_services(root_dir, targets)
 
     classes = collect_classes(root_dir, allowed_services=allowed_services)
     if targets_file:

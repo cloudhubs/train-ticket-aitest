@@ -3,21 +3,16 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
-TARGET_DIR_DEFAULT="$ROOT_DIR/generated-tests/blackbox"
+ROOT_DIR_CONFIG="$(cd "$SCRIPT_DIR/.." && pwd)"
+ROOT_DIR_EVOMASTER="$(cd "$SCRIPT_DIR/../.." && pwd)"
+
+if [ -d "$ROOT_DIR_CONFIG/generated-tests/blackbox" ]; then
+    TARGET_DIR_DEFAULT="$ROOT_DIR_CONFIG/generated-tests/blackbox"
+else
+    TARGET_DIR_DEFAULT="$ROOT_DIR_EVOMASTER/generated-tests/blackbox"
+fi
 
 source "$SCRIPT_DIR/auth-config.sh"
-
-RESOLVE_IP="${EVOMASTER_HOST_RESOLVE:-}"
-if [ "${EVOMASTER_NO_AUTO_HOST_RESOLVE:-}" != "1" ]; then
-    if [ -z "$RESOLVE_IP" ] && ! getent hosts identity >/dev/null 2>&1; then
-        RESOLVE_IP="127.0.0.1"
-    fi
-fi
-if [ -n "$RESOLVE_IP" ]; then
-    CURL_HOST_RESOLVE=(--resolve "api.yas.local:80:${RESOLVE_IP}" --resolve "identity:80:${RESOLVE_IP}")
-    echo "Using curl --resolve for api.yas.local/identity -> ${RESOLVE_IP}"
-fi
 
 TARGET_DIR="$TARGET_DIR_DEFAULT"
 ROLE_FILTER=""
@@ -31,7 +26,8 @@ Refresh expired Authorization bearer tokens in generated EvoMaster Java tests.
 Only the token value inside '.header("Authorization", "Bearer ...")' is changed.
 
 Options:
-  --role ROLE   Update only one role directory: admin, admin_only, customer, super_admin, user, none
+  --role ROLE   Update only one role directory: admin, user or none
+                Legacy aliases: admin_only -> admin, customer -> user
   --dir PATH    Override the base directory to scan
   --dry-run     Show what would change without editing files
   --help        Show this help
@@ -69,38 +65,36 @@ if [ ! -d "$TARGET_DIR" ]; then
     exit 1
 fi
 
-get_role_token() {
+normalize_role() {
     local role="$1"
 
     case "$role" in
+        admin|admin_only)
+            echo "admin"
+            ;;
+        user|customer)
+            echo "user"
+            ;;
+        none)
+            echo "none"
+            ;;
+        *)
+            echo "Unsupported role for token refresh: $role" >&2
+            return 1
+            ;;
+    esac
+}
+
+get_role_token() {
+    local role="$1"
+    local auth_url="${AUTH_LOGIN_ENDPOINT:-}"
+
+    case "$role" in
         admin)
-            get_admin_token
-            ;;
-        admin_only)
-            ensure_admin_only_user_exists >&2
-            get_admin_only_token
-            ;;
-        customer)
-            ensure_customer_user_exists >&2
-            get_customer_token
-            ;;
-        super_admin)
-            ensure_super_admin_user_exists >&2
-            get_super_admin_token
+            get_admin_token "$auth_url"
             ;;
         user)
-            if declare -F ensure_user_role_user_exists >/dev/null 2>&1; then
-                ensure_user_role_user_exists >&2
-            fi
-
-            if declare -F get_user_role_token >/dev/null 2>&1; then
-                get_user_role_token
-            elif declare -F get_user_token >/dev/null 2>&1; then
-                get_user_token
-            else
-                echo "No token function available for role 'user'. Expected get_user_role_token or get_user_token." >&2
-                return 1
-            fi
+            get_user_token "$auth_url"
             ;;
         none)
             echo ""
@@ -134,10 +128,16 @@ update_file_tokens() {
 
 roles=()
 if [ -n "$ROLE_FILTER" ]; then
-    roles+=("$ROLE_FILTER")
+    normalized_role="$(normalize_role "$ROLE_FILTER")" || exit 1
+    roles+=("$normalized_role")
 else
+    declare -A seen_roles=()
     while IFS= read -r role; do
-        roles+=("$role")
+        normalized_role="$(normalize_role "$role")" || continue
+        if [ -z "${seen_roles[$normalized_role]:-}" ]; then
+            roles+=("$normalized_role")
+            seen_roles[$normalized_role]=1
+        fi
     done < <(find "$TARGET_DIR" -mindepth 2 -maxdepth 2 -type d -printf '%f\n' | sort -u)
 fi
 
@@ -146,7 +146,7 @@ total_lines=0
 
 for role in "${roles[@]}"; do
     case "$role" in
-        admin|admin_only|customer|super_admin|user|none)
+        admin|user|none)
             ;;
         *)
             echo "Skipping unsupported role directory '$role'"
@@ -154,8 +154,7 @@ for role in "${roles[@]}"; do
             ;;
     esac
 
-    # Limit matching to the role directory directly under each service directory.
-    mapfile -t files < <(find "$TARGET_DIR" -mindepth 3 -maxdepth 3 -type f -path "$TARGET_DIR/*/${role}/*.java" | sort)
+    mapfile -t files < <(find "$TARGET_DIR" -type f -path "*/${role}/*.java" | sort)
     if [ "${#files[@]}" -eq 0 ]; then
         echo "No Java files found for role '$role' under $TARGET_DIR"
         continue
