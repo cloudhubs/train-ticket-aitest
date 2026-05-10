@@ -19,7 +19,7 @@ from pathlib import Path
 from typing import Optional
 
 
-CLASS_PATTERN = re.compile(r"(?m)^\s*public\s+class\s+([A-Za-z0-9_]+)")
+CLASS_PATTERN = re.compile(r"(?m)^\s*public\s+class\s+([^\s{]+)")
 IMPORT_PATTERN = re.compile(r"(?m)^\s*import\s+(?:static\s+)?([^;]+);")
 METHOD_PATTERN = re.compile(
     r"(?ms)(?P<comment>/\*\*.*?\*/)?\s*"
@@ -288,6 +288,16 @@ def get_file_type(file_name: str) -> str:
 def get_class_name(content: str) -> str:
     match = CLASS_PATTERN.search(content)
     return match.group(1) if match else ""
+
+
+def sanitize_java_identifier(value: str, fallback: str = "GeneratedTest") -> str:
+    candidate = value.strip() or fallback
+    sanitized = re.sub(r"[^A-Za-z0-9_$]", "_", candidate)
+    if not sanitized:
+        sanitized = fallback
+    if sanitized[0].isdigit():
+        sanitized = f"_{sanitized}"
+    return sanitized
 
 
 def get_import_line_numbers(lines: list[str]) -> set[int]:
@@ -745,7 +755,8 @@ def parse_java_file(root_dir: Path, file_path: Path) -> ClassInfo:
     service = relative_parts[0] if len(relative_parts) >= 1 else ""
     profile = relative_parts[1] if len(relative_parts) >= 2 else ""
     file_name = file_path.name
-    class_name = get_class_name(content)
+    declared_class_name = get_class_name(content)
+    class_name = sanitize_java_identifier(declared_class_name or file_path.stem)
     file_type = get_file_type(file_name)
     imports = IMPORT_PATTERN.findall(content)
     methods: list[MethodInfo] = []
@@ -1090,7 +1101,17 @@ def create_project_layout(work_dir: Path, class_info: ClassInfo, java_release: s
 
     test_source_dir = work_dir / "src" / "test" / "java"
     test_source_dir.mkdir(parents=True, exist_ok=True)
-    shutil.copy2(class_info.file_path, test_source_dir / class_info.file_name)
+    test_content = class_info.file_path.read_text(encoding="utf-8", errors="replace")
+    rewritten_content = re.sub(
+        r"(?m)^(\s*public\s+class\s+)([^\s{]+)",
+        rf"\1{class_info.class_name}",
+        test_content,
+        count=1,
+    )
+    (test_source_dir / f"{class_info.class_name}.java").write_text(
+        rewritten_content,
+        encoding="utf-8",
+    )
     (work_dir / "pom.xml").write_text(
         build_runner_pom(java_release, dependency_version),
         encoding="utf-8",
