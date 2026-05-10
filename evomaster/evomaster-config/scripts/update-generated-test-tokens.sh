@@ -89,8 +89,18 @@ get_role_token() {
             get_super_admin_token
             ;;
         user)
-            ensure_user_role_user_exists >&2
-            get_user_role_token
+            if declare -F ensure_user_role_user_exists >/dev/null 2>&1; then
+                ensure_user_role_user_exists >&2
+            fi
+
+            if declare -F get_user_role_token >/dev/null 2>&1; then
+                get_user_role_token
+            elif declare -F get_user_token >/dev/null 2>&1; then
+                get_user_token
+            else
+                echo "No token function available for role 'user'. Expected get_user_role_token or get_user_token." >&2
+                return 1
+            fi
             ;;
         none)
             echo ""
