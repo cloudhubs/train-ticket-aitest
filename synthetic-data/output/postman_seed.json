@@ -1,0 +1,2868 @@
+{
+  "info": {
+    "name": "Train Ticket Synthetic Seed",
+    "description": "Covers all flows in flow-matrix.md. Set {{gateway}} to http://localhost:8888. Run 'Login (admin)' first and set {{token}} from the response.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "gateway",
+      "value": "http://localhost:8888",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string",
+      "description": "Set after running Login request"
+    }
+  ],
+  "item": [
+    {
+      "name": "01 Auth",
+      "item": [
+        {
+          "name": "Login (admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/users/login",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "users",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userName\": \"admin\",\n  \"password\": \"222222\"\n}"
+            },
+            "description": "Returns admin JWT. Copy token to {{token}} variable."
+          }
+        },
+        {
+          "name": "Login (wei_zhang)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/users/login",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "users",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userName\": \"wei_zhang\",\n  \"password\": \"password123\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Register user",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/users/register",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "users",
+                "register"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"00000006-0000-4000-8000-000000000051\",\n  \"userName\": \"new_test_user\",\n  \"password\": \"password123\",\n  \"gender\": 1,\n  \"documentType\": 1,\n  \"documentNum\": \"110101199001011234\",\n  \"email\": \"new_test@test.com\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get user by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/users/00000006-0000-4000-8000-000000000001",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "users",
+                "00000006-0000-4000-8000-000000000001"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get all users (admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/users",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "users"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete user (admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/users/00000006-0000-4000-8000-000000000051",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "users",
+                "00000006-0000-4000-8000-000000000051"
+              ]
+            }
+          }
+        }
+      ],
+      "description": "Authentication and user management"
+    },
+    {
+      "name": "02 Contacts",
+      "item": [
+        {
+          "name": "Get contacts by account",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/contactservice/contacts/account/00000006-0000-4000-8000-000000000001",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "contactservice",
+                "contacts",
+                "account",
+                "00000006-0000-4000-8000-000000000001"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get all contacts (admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/contactservice/contacts",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "contactservice",
+                "contacts"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create contact",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/contactservice/contacts",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "contactservice",
+                "contacts"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": null,\n  \"accountId\": \"00000006-0000-4000-8000-000000000001\",\n  \"name\": \"Wei Zhang\",\n  \"documentType\": 1,\n  \"documentNumber\": \"330102197801011234\",\n  \"phoneNumber\": \"13800000001\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Update contact",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/contactservice/contacts",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "contactservice",
+                "contacts"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"00000007-0000-4000-8000-000000000001\",\n  \"accountId\": \"00000006-0000-4000-8000-000000000001\",\n  \"name\": \"Wei Zhang Updated\",\n  \"documentType\": 1,\n  \"documentNumber\": \"330102197801011234\",\n  \"phoneNumber\": \"13900000001\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete contact (admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/contactservice/contacts/00000007-0000-4000-8000-000000000001",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "contactservice",
+                "contacts",
+                "00000007-0000-4000-8000-000000000001"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "03 Stations",
+      "item": [
+        {
+          "name": "Get all stations",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/stationservice/stations",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "stationservice",
+                "stations"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get station by name",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/stationservice/stations/name/shanghai",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "stationservice",
+                "stations",
+                "name",
+                "shanghai"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create station (admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/stationservice/stations",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "stationservice",
+                "stations"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": null,\n  \"name\": \"teststation\",\n  \"stayTime\": 5\n}"
+            }
+          }
+        },
+        {
+          "name": "Update station (admin)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/stationservice/stations",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "stationservice",
+                "stations"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"00000001-0000-4000-8000-000000000001\",\n  \"name\": \"shanghai\",\n  \"stayTime\": 10\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete station (admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/stationservice/stations/teststation",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "stationservice",
+                "stations",
+                "teststation"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "04 Train Types",
+      "item": [
+        {
+          "name": "Get all train types",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/traintypeservice/traintypes",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "traintypeservice",
+                "traintypes"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get train type by name",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/traintypeservice/traintypes/GaoTieOne",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "traintypeservice",
+                "traintypes",
+                "GaoTieOne"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create train type (admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/traintypeservice/traintypes",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "traintypeservice",
+                "traintypes"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": null,\n  \"name\": \"TestType\",\n  \"economyClass\": 1000,\n  \"confortClass\": 500,\n  \"averageSpeed\": 200\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete train type (admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/traintypeservice/traintypes/TestType",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "traintypeservice",
+                "traintypes",
+                "TestType"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "05 Routes",
+      "item": [
+        {
+          "name": "Get all routes",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/routeservice/routes",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "routeservice",
+                "routes"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get route by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/routeservice/routes/00000003-0000-4000-8000-000000000001",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "routeservice",
+                "routes",
+                "00000003-0000-4000-8000-000000000001"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create route (admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/routeservice/routes",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "routeservice",
+                "routes"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": null,\n  \"startStation\": \"teststart\",\n  \"endStation\": \"testend\",\n  \"stationList\": [\n    \"teststart\",\n    \"testmid\",\n    \"testend\"\n  ],\n  \"distanceList\": [\n    100,\n    200\n  ]\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete route (admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/routeservice/routes/00000003-0000-4000-8000-000000000050",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "routeservice",
+                "routes",
+                "00000003-0000-4000-8000-000000000050"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "06 Prices",
+      "item": [
+        {
+          "name": "Get all prices",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/priceservice/prices",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "priceservice",
+                "prices"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get price by trip+route",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/priceservice/prices/GaoTieOne/00000003-0000-4000-8000-000000000001",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "priceservice",
+                "prices",
+                "GaoTieOne",
+                "00000003-0000-4000-8000-000000000001"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create price config (admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/priceservice/prices",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "priceservice",
+                "prices"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": null,\n  \"trainType\": \"GaoTieOne\",\n  \"routeId\": \"00000003-0000-4000-8000-000000000001\",\n  \"basicPriceRate\": 0.9,\n  \"firstClassPriceRate\": 1.3\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete price config (admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/priceservice/prices/00000004-0000-4000-8000-000000000001",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "priceservice",
+                "prices",
+                "00000004-0000-4000-8000-000000000001"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "07 G-Trips (ts-travel-service)",
+      "item": [
+        {
+          "name": "Get G-trip by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/travelservice/trips/00000005-0000-4000-8000-000000000001",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "travelservice",
+                "trips",
+                "00000005-0000-4000-8000-000000000001"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Query G-trips (search)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/travelservice/trips/left",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "travelservice",
+                "trips",
+                "left"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"startingPlace\": \"shanghai\",\n  \"endPlace\": \"beijing\",\n  \"departureTime\": \"2026-07-01\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Admin create G-trip",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/travelservice/trips",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "travelservice",
+                "trips"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tripId\": {\n    \"type\": \"G\",\n    \"number\": \"1099\"\n  },\n  \"trainTypeId\": \"GaoTieOne\",\n  \"routeId\": \"00000003-0000-4000-8000-000000000001\",\n  \"startStationName\": \"shanghai\",\n  \"stationsName\": \"shanghai,shanghaieast,beijing\",\n  \"terminalStationName\": \"beijing\",\n  \"startTime\": \"10:00\",\n  \"endTime\": \"16:00\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Admin update G-trip",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/travelservice/trips",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "travelservice",
+                "trips"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tripId\": {\n    \"type\": \"G\",\n    \"number\": \"1001\"\n  },\n  \"trainTypeId\": \"GaoTieOne\",\n  \"routeId\": \"00000003-0000-4000-8000-000000000001\",\n  \"startStationName\": \"shanghai\",\n  \"stationsName\": \"shanghai,shanghaieast,beijing\",\n  \"terminalStationName\": \"beijing\",\n  \"startTime\": \"08:00\",\n  \"endTime\": \"14:30\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Admin delete G-trip",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/travelservice/trips/G1099",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "travelservice",
+                "trips",
+                "G1099"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get trip stations",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/travelservice/trips/stations/G1001",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "travelservice",
+                "trips",
+                "stations",
+                "G1001"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "08 D-Trips (ts-order-service)",
+      "item": [
+        {
+          "name": "Get D-trip by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/preserveservice/trips/00000005-0000-4000-8000-000000000051",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "preserveservice",
+                "trips",
+                "00000005-0000-4000-8000-000000000051"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Query D-trips (search)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/preserveservice/trips/left",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "preserveservice",
+                "trips",
+                "left"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"startingPlace\": \"shanghai\",\n  \"endPlace\": \"beijing\",\n  \"departureTime\": \"2026-07-01\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Admin create D-trip",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/preserveservice/trips",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "preserveservice",
+                "trips"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tripId\": {\n    \"type\": \"D\",\n    \"number\": \"2099\"\n  },\n  \"trainTypeId\": \"DongCheOne\",\n  \"routeId\": \"00000003-0000-4000-8000-000000000001\",\n  \"startStationName\": \"shanghai\",\n  \"stationsName\": \"shanghai,shanghaieast,beijing\",\n  \"terminalStationName\": \"beijing\",\n  \"startTime\": \"09:00\",\n  \"endTime\": \"17:00\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Admin delete D-trip",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/preserveservice/trips/D2099",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "preserveservice",
+                "trips",
+                "D2099"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "09 Orders G (ts-preserve-service)",
+      "item": [
+        {
+          "name": "Get G-order by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/orderservice/order/00000008-0000-4000-8000-000000000001",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "orderservice",
+                "order",
+                "00000008-0000-4000-8000-000000000001"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get G-orders by account",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/orderservice/order/query",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "orderservice",
+                "order",
+                "query"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"loginId\": \"00000006-0000-4000-8000-000000000001\",\n  \"enableStateQuery\": false,\n  \"enableTravelDateQuery\": false,\n  \"enableBoughtDateQuery\": false,\n  \"travelDateStart\": null,\n  \"travelDateEnd\": null,\n  \"boughtDateStart\": null,\n  \"boughtDateEnd\": null,\n  \"state\": 0\n}"
+            }
+          }
+        },
+        {
+          "name": "Get all G-orders (admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/orderservice/order",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "orderservice",
+                "order"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update G-order (user)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/orderservice/order",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "orderservice",
+                "order"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"00000008-0000-4000-8000-000000000001\",\n  \"status\": 1,\n  \"accountId\": \"00000006-0000-4000-8000-000000000001\",\n  \"contactsId\": \"00000007-0000-4000-8000-000000000001\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Admin create G-order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/orderservice/order/admin",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "orderservice",
+                "order",
+                "admin"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": null,\n  \"boughtDate\": \"2026-06-25\",\n  \"travelDate\": \"2026-09-01\",\n  \"travelTime\": \"08:00\",\n  \"accountId\": \"00000006-0000-4000-8000-000000000001\",\n  \"contactsName\": \"Wei Zhang\",\n  \"documentType\": 1,\n  \"contactsDocumentNumber\": \"330102197801011234\",\n  \"trainNumber\": \"G1001\",\n  \"coachNumber\": 1,\n  \"seatClass\": 2,\n  \"seatNumber\": \"1A\",\n  \"from\": \"shanghai\",\n  \"to\": \"beijing\",\n  \"status\": 0,\n  \"price\": \"553.50\"\n}"
+            }
+          }
+        }
+      ],
+      "description": "IMPORTANT: ts-preserve-service hosts /api/v1/orderservice"
+    },
+    {
+      "name": "10 Preserve Ticket (ts-order-service)",
+      "item": [
+        {
+          "name": "Preserve G-ticket",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/preserveservice/preserve",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "preserveservice",
+                "preserve"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"accountId\": \"00000006-0000-4000-8000-000000000001\",\n  \"contactsId\": \"00000007-0000-4000-8000-000000000001\",\n  \"tripId\": \"G1001\",\n  \"seatType\": 2,\n  \"date\": \"2026-09-15\",\n  \"from\": \"shanghai\",\n  \"to\": \"beijing\",\n  \"assurance\": 0,\n  \"foodType\": 0,\n  \"stationName\": \"\",\n  \"storeName\": \"\",\n  \"foodName\": \"\",\n  \"foodPrice\": 0.0,\n  \"handleDate\": \"2026-06-25\",\n  \"consigneeName\": \"\",\n  \"consigneePhone\": \"\",\n  \"consigneeWeight\": 0.0,\n  \"isWithin\": false\n}"
+            }
+          }
+        },
+        {
+          "name": "Preserve D-ticket",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/preserveservice/preserve",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "preserveservice",
+                "preserve"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"accountId\": \"00000006-0000-4000-8000-000000000001\",\n  \"contactsId\": \"00000007-0000-4000-8000-000000000001\",\n  \"tripId\": \"D2001\",\n  \"seatType\": 4,\n  \"date\": \"2026-09-15\",\n  \"from\": \"shanghai\",\n  \"to\": \"beijing\",\n  \"assurance\": 0,\n  \"foodType\": 0,\n  \"stationName\": \"\",\n  \"storeName\": \"\",\n  \"foodName\": \"\",\n  \"foodPrice\": 0.0,\n  \"handleDate\": \"2026-06-25\",\n  \"consigneeName\": \"\",\n  \"consigneePhone\": \"\",\n  \"consigneeWeight\": 0.0,\n  \"isWithin\": false\n}"
+            }
+          }
+        }
+      ],
+      "description": "IMPORTANT: ts-order-service hosts /api/v1/preserveservice"
+    },
+    {
+      "name": "11 Payment",
+      "item": [
+        {
+          "name": "Pay for order",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/inside_pay_service/inside_payment/pay/00000008-0000-4000-8000-000000000001/00000006-0000-4000-8000-000000000001/553.50",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "inside_pay_service",
+                "inside_payment",
+                "pay",
+                "00000008-0000-4000-8000-000000000001",
+                "00000006-0000-4000-8000-000000000001",
+                "553.50"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get payment by order",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/paymentservice/payment/00000008-0000-4000-8000-000000000051",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "paymentservice",
+                "payment",
+                "00000008-0000-4000-8000-000000000051"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get all payments",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/paymentservice/payment",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "paymentservice",
+                "payment"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "12 Cancel",
+      "item": [
+        {
+          "name": "Cancel G-order",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/cancelservice/cancel/00000008-0000-4000-8000-000000000051/00000006-0000-4000-8000-000000000001",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "cancelservice",
+                "cancel",
+                "00000008-0000-4000-8000-000000000051",
+                "00000006-0000-4000-8000-000000000001"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Cancel calculate refund",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/cancelservice/cancel/refund/00000008-0000-4000-8000-000000000052",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "cancelservice",
+                "cancel",
+                "refund",
+                "00000008-0000-4000-8000-000000000052"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "13 Rebook",
+      "item": [
+        {
+          "name": "Rebook order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/rebookservice/rebook",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "rebookservice",
+                "rebook"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"loginId\": \"00000006-0000-4000-8000-000000000001\",\n  \"orderId\": \"00000008-0000-4000-8000-000000000053\",\n  \"oldTripId\": \"G1003\",\n  \"tripId\": \"G1004\",\n  \"seatType\": 2,\n  \"date\": \"2026-07-05\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "14 Assurance",
+      "item": [
+        {
+          "name": "Get assurance types",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/assuranceservice/assurances/types",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "assuranceservice",
+                "assurances",
+                "types"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get assurance by order",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/assuranceservice/assurances/orderid/00000008-0000-4000-8000-000000000051",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "assuranceservice",
+                "assurances",
+                "orderid",
+                "00000008-0000-4000-8000-000000000051"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get all assurances (admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/assuranceservice/assurances",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "assuranceservice",
+                "assurances"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create assurance",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/assuranceservice/assurances/1/00000008-0000-4000-8000-000000000001",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "assuranceservice",
+                "assurances",
+                "1",
+                "00000008-0000-4000-8000-000000000001"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete assurance by order (admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/assuranceservice/assurances/orderid/00000016-0000-4000-8000-000000000001",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "assuranceservice",
+                "assurances",
+                "orderid",
+                "00000016-0000-4000-8000-000000000001"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "15 Food",
+      "item": [
+        {
+          "name": "Get all food (admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/foodservice/foods",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "foodservice",
+                "foods"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get food by order",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/foodservice/orders/00000008-0000-4000-8000-000000000051",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "foodservice",
+                "orders",
+                "00000008-0000-4000-8000-000000000051"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create food order (admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/foodservice/orders",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "foodservice",
+                "orders"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": null,\n  \"orderId\": \"00000008-0000-4000-8000-000000000055\",\n  \"foodType\": 1,\n  \"stationName\": \"\",\n  \"storeName\": \"\",\n  \"foodName\": \"Beef Noodles\",\n  \"price\": 18.0\n}"
+            }
+          }
+        },
+        {
+          "name": "Get train food menus",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/foodservice/trains/G1001",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "foodservice",
+                "trains",
+                "G1001"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get station food stores",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/foodservice/stores/shanghai",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "foodservice",
+                "stores",
+                "shanghai"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "16 Consign",
+      "item": [
+        {
+          "name": "Get consigns by account",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/consignservice/consigns/account/00000006-0000-4000-8000-000000000001",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "consignservice",
+                "consigns",
+                "account",
+                "00000006-0000-4000-8000-000000000001"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get consigns by order",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/consignservice/consigns/order/00000008-0000-4000-8000-000000000051",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "consignservice",
+                "consigns",
+                "order",
+                "00000008-0000-4000-8000-000000000051"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create consign",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/consignservice/consigns",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "consignservice",
+                "consigns"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": null,\n  \"orderId\": \"00000008-0000-4000-8000-000000000055\",\n  \"accountId\": \"00000006-0000-4000-8000-000000000001\",\n  \"handleDate\": \"2026-06-25\",\n  \"targetDate\": \"2026-07-01\",\n  \"from\": \"shanghai\",\n  \"to\": \"beijing\",\n  \"consignee\": \"Wei Zhang\",\n  \"phone\": \"13800000001\",\n  \"weight\": 5.0,\n  \"isWithin\": true\n}"
+            }
+          }
+        },
+        {
+          "name": "Get consign price",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/consignpriceservice/consignprice",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "consignpriceservice",
+                "consignprice"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get consign price by weight",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/consignpriceservice/consignprice/5.0/true",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "consignpriceservice",
+                "consignprice",
+                "5.0",
+                "true"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "17 Security",
+      "item": [
+        {
+          "name": "Security check",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/securityservice/securityConfigs/check",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "securityservice",
+                "securityConfigs",
+                "check"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"accountId\": \"00000006-0000-4000-8000-000000000001\",\n  \"orderId\": \"00000008-0000-4000-8000-000000000001\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get all security configs",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/securityservice/securityConfigs",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "securityservice",
+                "securityConfigs"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create security config (admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/securityservice/securityConfigs",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "securityservice",
+                "securityConfigs"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": null,\n  \"name\": \"test_rule\",\n  \"value\": \"5\",\n  \"description\": \"Test rule\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete security config (admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/securityservice/securityConfigs/test_rule",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "securityservice",
+                "securityConfigs",
+                "test_rule"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "18 Config",
+      "item": [
+        {
+          "name": "Get all configs (admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/configservice/configs",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "configservice",
+                "configs"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get config by name",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/configservice/configs/system.timezone",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "configservice",
+                "configs",
+                "system.timezone"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create config (admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/configservice/configs",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "configservice",
+                "configs"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"test.config\",\n  \"value\": \"test_value\",\n  \"description\": \"Test\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Update config (admin)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/configservice/configs",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "configservice",
+                "configs"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"test.config\",\n  \"value\": \"updated_value\",\n  \"description\": \"Test updated\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete config (admin)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/configservice/configs/test.config",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "configservice",
+                "configs",
+                "test.config"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "19 Waitlist",
+      "item": [
+        {
+          "name": "Get all waitlist orders",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/waitorderservice/orders",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "waitorderservice",
+                "orders"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get waitlist by account",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/waitorderservice/orders/account/00000006-0000-4000-8000-000000000001",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "waitorderservice",
+                "orders",
+                "account",
+                "00000006-0000-4000-8000-000000000001"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get waitlist order by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/waitorderservice/orders/00000018-0000-4000-8000-000000000001",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "waitorderservice",
+                "orders",
+                "00000018-0000-4000-8000-000000000001"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Cancel waitlist order",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/waitorderservice/orders/00000018-0000-4000-8000-000000000001",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "waitorderservice",
+                "orders",
+                "00000018-0000-4000-8000-000000000001"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "20 Admin",
+      "item": [
+        {
+          "name": "Admin get all orders",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/adminservice/orders",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "adminservice",
+                "orders"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Admin update order",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/adminservice/orders",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "adminservice",
+                "orders"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"00000008-0000-4000-8000-000000000051\",\n  \"status\": 2\n}"
+            }
+          }
+        },
+        {
+          "name": "Admin delete order",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/adminservice/orders/00000008-0000-4000-8000-000000000001",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "adminservice",
+                "orders",
+                "00000008-0000-4000-8000-000000000001"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Admin get contacts",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/adminservice/contacts",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "adminservice",
+                "contacts"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Admin get stations",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/adminservice/stations",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "adminservice",
+                "stations"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Admin get train types",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/adminservice/trainTypes",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "adminservice",
+                "trainTypes"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Admin get configs",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/adminservice/configs",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "adminservice",
+                "configs"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Admin get G-trips",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/adminservice/travels",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "adminservice",
+                "travels"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Admin get D-trips",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/adminservice/travelsPlan",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "adminservice",
+                "travelsPlan"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Admin get routes",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/adminservice/routes",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "adminservice",
+                "routes"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Admin get prices",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/adminservice/prices",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "adminservice",
+                "prices"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "21 Inside Payment",
+      "item": [
+        {
+          "name": "Add inside payment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/inside_pay_service/inside_payment",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "inside_pay_service",
+                "inside_payment"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"orderId\": \"00000008-0000-4000-8000-000000000001\",\n  \"userId\": \"00000006-0000-4000-8000-000000000001\",\n  \"price\": \"553.50\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Query inside payments",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{gateway}}/api/v1/inside_pay_service/inside_payment",
+              "host": [
+                "{{gateway}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "inside_pay_service",
+                "inside_payment"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
